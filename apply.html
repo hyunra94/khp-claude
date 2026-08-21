@@ -8,198 +8,158 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <meta property="og:title" content="2026 재직자 교육 신청">
 <meta property="og:image" content="https://hyunra94.github.io/assets/og-default.png">
-<meta property="og:url" content="https://hyunra94.github.io/[레포명]">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<meta property="og:url" content="https://hyunra94.github.io/khp-claude">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
-    --bg:#0A0A0A;
-    --surface:#151310;
-    --surface-soft:#1B1812;
-    --gold:#D4AF37;
-    --gold-bright:#E9CD73;
-    --gold-dim:rgba(212,175,55,0.28);
-    --ink:#F1E9D8;
-    --ink-soft:#A79A7C;
-    --line:rgba(212,175,55,0.3);
-    --error:#D3697E;
-    --success:#7FAE85;
+    --bg:#FDFCFA;
+    --paper:#FFFFFF;
+    --ink:#141414;
+    --ink-soft:#5C5C58;
+    --line:#141414;
+    --line-soft:#D8D5CE;
+    --accent:#9B2E2E;
+    --success:#33513C;
   }
   *{box-sizing:border-box;}
   body{
     margin:0;
-    font-family:'Noto Sans KR', sans-serif;
-    background:
-      repeating-conic-gradient(from 0deg at 50% -20%, rgba(212,175,55,0.05) 0deg 1.2deg, transparent 1.2deg 9deg),
-      var(--bg);
+    font-family:'Pretendard', sans-serif;
+    background:var(--bg);
     min-height:100vh;
     color:var(--ink);
-    padding:44px 18px 90px;
+    padding:0 18px 90px;
   }
-  .wrap{max-width:560px;margin:0 auto;position:relative;}
-  .eyebrow{
+  .wrap{max-width:600px;margin:0 auto;}
+  .masthead{
     text-align:center;
-    font-family:'Cinzel', serif;
-    font-size:12px;
-    letter-spacing:0.32em;
-    color:var(--gold);
-    font-weight:600;
-    margin-bottom:14px;
+    padding:38px 0 22px;
+    border-bottom:3px solid var(--line);
+    margin-bottom:30px;
+  }
+  .kicker{
+    font-size:11px;
+    letter-spacing:0.3em;
     text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:14px;
   }
-  .eyebrow::before, .eyebrow::after{content:"◆"; margin:0 10px; font-size:8px; vertical-align:middle; color:var(--gold-dim);}
   h1{
-    text-align:center;
-    font-size:29px;
+    font-family:'Pretendard', sans-serif;
+    font-size:34px;
     font-weight:900;
-    margin:0 0 6px;
-    letter-spacing:0.06em;
-    color:var(--ink);
+    margin:0 0 10px;
+    letter-spacing:-0.01em;
+    line-height:1.2;
   }
-  .sub{
-    text-align:center;
-    font-size:13px;
-    color:var(--ink-soft);
-    margin:0 auto 34px;
-    letter-spacing:0.04em;
-  }
-  .deco-rule{
-    display:flex;align-items:center;gap:10px;
-    max-width:220px;margin:0 auto 34px;
-  }
-  .deco-rule span{flex:1;height:1px;background:linear-gradient(90deg, transparent, var(--gold), transparent);}
-  .deco-rule i{color:var(--gold);font-size:10px;transform:rotate(45deg);border:1px solid var(--gold);width:8px;height:8px;display:block;}
-
-  .stepped{
-    clip-path:polygon(
-      0 14px, 14px 14px, 14px 0,
-      calc(100% - 14px) 0, calc(100% - 14px) 14px, 100% 14px,
-      100% calc(100% - 14px), calc(100% - 14px) calc(100% - 14px), calc(100% - 14px) 100%,
-      14px 100%, 14px calc(100% - 14px), 0 calc(100% - 14px)
-    );
-  }
-  .card{
-    background:var(--surface);
-    padding:32px 28px;
-    position:relative;
-    border:1px solid var(--line);
-  }
-  .card::before{
-    content:"";
-    position:absolute; inset:7px;
-    border:1px solid rgba(212,175,55,0.16);
-    pointer-events:none;
-  }
-  .corner{position:absolute;width:16px;height:16px;border-color:var(--gold);pointer-events:none;}
-  .corner.tl{top:-1px;left:-1px;border-top:2px solid var(--gold);border-left:2px solid var(--gold);}
-  .corner.tr{top:-1px;right:-1px;border-top:2px solid var(--gold);border-right:2px solid var(--gold);}
-  .corner.bl{bottom:-1px;left:-1px;border-bottom:2px solid var(--gold);border-left:2px solid var(--gold);}
-  .corner.br{bottom:-1px;right:-1px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold);}
-
-  .notice-card{
-    background:var(--surface-soft);
-    border:1px solid var(--line);
-    padding:20px 22px;
-    margin-bottom:22px;
+  .dateline{
     font-size:12.5px;
-    line-height:1.9;
     color:var(--ink-soft);
-    position:relative;
+    border-top:1px solid var(--line-soft);
+    padding-top:10px;
+    margin-top:14px;
   }
-  .notice-card b{color:var(--gold-bright);}
-  .notice-card .warn{color:var(--error);font-weight:700;}
-  .notice-card ul{margin:8px 0 0;padding-left:18px;}
-  .notice-card a{color:var(--gold-bright);}
 
+  .notice{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:18px 0;
+    margin-bottom:30px;
+    font-size:12.5px;
+    line-height:2;
+    color:var(--ink-soft);
+  }
+  .notice b{color:var(--ink);font-weight:700;}
+  .notice .warn{color:var(--accent);font-weight:700;}
+  .notice ul{margin:8px 0 0;padding-left:18px;}
+  .notice a{color:var(--ink);text-decoration:underline;}
+
+  section.block{margin-bottom:34px;}
   label{
     display:block;
-    font-family:'Cinzel', serif;
-    font-size:11px;
-    font-weight:600;
+    font-size:10.5px;
+    font-weight:700;
     letter-spacing:0.14em;
     text-transform:uppercase;
-    color:var(--gold);
-    margin:22px 0 9px;
+    color:var(--ink-soft);
+    margin:24px 0 8px;
   }
   label:first-of-type{margin-top:0;}
   input[type=text], input[type=tel], input[type=email]{
     width:100%;
-    padding:13px 14px;
-    border:1px solid var(--line);
-    background:#0E0C09;
+    padding:11px 2px;
+    border:none;
+    border-bottom:1.5px solid var(--line);
+    background:transparent;
     font-family:inherit;
-    font-size:14.5px;
+    font-size:16px;
     color:var(--ink);
     outline:none;
-    transition:border-color .16s, box-shadow .16s;
+    transition:border-color .15s;
   }
-  input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,175,55,0.12);}
-  .hint{font-size:11px;color:var(--ink-soft);margin-top:7px;line-height:1.6;letter-spacing:0.01em;}
+  input:focus{border-bottom-color:var(--accent);}
+  input::placeholder{color:#B7B3A9;}
+  .hint{font-size:11.5px;color:var(--ink-soft);margin-top:8px;line-height:1.6;}
 
-  .type-group{margin-bottom:16px;border:1px solid var(--line);}
-  .type-head{
-    padding:12px 14px;
-    background:var(--surface-soft);
-    display:flex;justify-content:space-between;align-items:baseline;
-    border-bottom:1px solid var(--line);
+  .section-label{
+    font-family:'Pretendard', sans-serif;
+    font-size:14px;font-weight:900;
+    margin:0 0 14px;
+    padding-bottom:8px;
+    border-bottom:2px solid var(--line);
   }
-  .type-head .name{font-weight:700;font-size:13.5px;color:var(--gold-bright);letter-spacing:0.02em;}
-  .type-head .desc{font-size:10.5px;color:var(--ink-soft);margin-top:3px;}
-  .round-list{padding:6px;}
+  .type-group{margin-bottom:22px;}
+  .type-name{font-weight:700;font-size:14.5px;}
+  .type-desc{font-size:11px;color:var(--ink-soft);margin-top:3px;margin-bottom:10px;}
   .round-item{
-    display:flex;align-items:center;gap:11px;
-    padding:11px 10px;
+    display:flex;align-items:flex-start;gap:12px;
+    padding:11px 0;
+    border-bottom:1px solid var(--line-soft);
     cursor:pointer;
-    border:1px solid transparent;
-    transition:border-color .15s, background .15s;
   }
-  .round-item:hover{border-color:var(--line);}
-  .round-item.checked{border-color:var(--gold);background:rgba(212,175,55,0.07);}
-  .round-item input{width:16px;height:16px;accent-color:var(--gold);flex:0 0 auto;}
-  .round-name{font-weight:700;font-size:13px;}
+  .round-item input{width:15px;height:15px;margin-top:3px;accent-color:var(--ink);flex:0 0 auto;}
+  .round-name{font-weight:700;font-size:13.5px;}
   .round-date{font-size:11px;color:var(--ink-soft);margin-top:2px;}
-  .empty-rounds{padding:16px;text-align:center;color:var(--ink-soft);font-size:12px;}
+  .empty-rounds{padding:16px 0;color:var(--ink-soft);font-size:12.5px;}
 
+  .consent-block{border-top:1px solid var(--line-soft);padding-top:16px;margin-top:16px;}
+  .consent-block .title{font-weight:700;font-size:12.5px;margin-bottom:8px;}
+  .consent-block ul{margin:0 0 12px;padding-left:18px;font-size:11.5px;color:var(--ink-soft);line-height:1.8;}
   .consent-row{
     display:flex;align-items:flex-start;gap:10px;
-    margin-top:16px;font-size:12.5px;line-height:1.65;color:var(--ink);
+    font-size:12.5px;line-height:1.6;color:var(--ink);
   }
-  .consent-row input{width:16px;height:16px;margin-top:2px;accent-color:var(--gold);flex:0 0 auto;}
+  .consent-row input{width:15px;height:15px;margin-top:2px;accent-color:var(--ink);flex:0 0 auto;}
 
   button.submit{
-    width:100%;margin-top:30px;padding:15px;
-    border:1px solid var(--gold);
-    background:linear-gradient(135deg, #B8912B, var(--gold) 45%, #B8912B);
-    color:#0A0A0A;
-    font-family:'Cinzel', serif;
-    font-size:13.5px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;
-    cursor:pointer;
-    box-shadow:0 0 26px rgba(212,175,55,0.22);
-    transition:transform .12s, box-shadow .12s;
+    width:100%;margin-top:32px;padding:16px;
+    border:none;background:var(--ink);color:var(--paper);
+    font-family:inherit;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+    cursor:pointer;transition:background .15s;
   }
-  button.submit:hover{box-shadow:0 0 34px rgba(212,175,55,0.36);}
-  button.submit:active{transform:translateY(1px);}
-  button.submit:disabled{opacity:0.45;cursor:not-allowed;}
+  button.submit:hover{background:#000;}
+  button.submit:disabled{opacity:0.4;cursor:not-allowed;}
 
-  .msg{margin-top:14px;font-size:12px;text-align:center;min-height:16px;letter-spacing:0.02em;}
-  .msg.error{color:var(--error);}
+  .msg{margin-top:14px;font-size:12.5px;text-align:center;min-height:16px;}
+  .msg.error{color:var(--accent);}
 
-  .success-card{text-align:center;padding:52px 28px;}
-  .success-card .glyph{font-size:30px;color:var(--gold);margin-bottom:14px;letter-spacing:0.3em;}
-  .success-card h2{font-family:'Cinzel',serif;font-size:19px;letter-spacing:0.08em;margin:0 0 12px;color:var(--gold-bright);text-transform:uppercase;}
-  .success-card p{font-size:13px;color:var(--ink-soft);margin:0;line-height:1.7;}
+  .success{text-align:center;padding:60px 0;border-top:3px solid var(--line);}
+  .success .mark{font-family:'Pretendard', sans-serif;font-size:13px;letter-spacing:0.3em;color:var(--ink-soft);margin-bottom:16px;}
+  .success h2{font-family:'Pretendard', sans-serif;font-size:26px;margin:0 0 14px;}
+  .success p{font-size:13.5px;color:var(--ink-soft);line-height:1.8;margin:0;}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="eyebrow">전주MBC · K-디지털팀</div>
-  <h1>2026 재직자 교육 신청</h1>
-  <p class="sub">원하는 과정의 회차를 선택하고 정보를 남겨주세요</p>
-  <div class="deco-rule"><span></span><i></i><span></span></div>
+  <div class="masthead">
+    <div class="kicker">전주MBC · K-디지털팀</div>
+    <h1>2026 재직자 교육 신청</h1>
+    <div class="dateline">원하는 과정의 회차를 선택하고 정보를 남겨주세요</div>
+  </div>
 
-  <div class="notice-card">
+  <div class="notice">
     <b>교육방식</b> 오프라인 집체교육(실습 중심) · <b>모집방법</b> 선착순 모집<br>
     <b>모집기준</b> 교육 일정의 80% 이상 참여 가능자 · <b>교육비용</b> 전액 지원
     (<span class="warn">단, 대기업 종사자는 20% 자비 부담 발생</span>)
@@ -207,67 +167,73 @@
       <li>교육 일정은 상황에 따라 변경될 수 있음</li>
       <li>모집인원이 저조할 시 통합 운영 될 수 있음</li>
     </ul>
-    👉 상세 커리큘럼은 <a href="https://jmbc.oopy.io/edu" target="_blank" rel="noopener">K-하이테크 플랫폼</a>에서 확인하세요
+    상세 커리큘럼은 <a href="https://jmbc.oopy.io/edu" target="_blank" rel="noopener">K-하이테크 플랫폼</a>에서 확인하세요
   </div>
 
-  <div class="card stepped" id="formCard">
-    <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+  <div id="formCard">
+    <section class="block">
+      <div class="section-label">신청자 정보</div>
+      <label for="name">이름</label>
+      <input type="text" id="name" placeholder="홍길동">
 
-    <label for="name">이름</label>
-    <input type="text" id="name" placeholder="홍길동">
+      <label for="phone">연락처</label>
+      <input type="tel" id="phone" placeholder="010-0000-0000">
 
-    <label for="phone">연락처</label>
-    <input type="tel" id="phone" placeholder="010-0000-0000">
+      <label for="email">이메일 (선택)</label>
+      <input type="email" id="email" placeholder="example@email.com">
 
-    <label for="email">이메일 (선택)</label>
-    <input type="email" id="email" placeholder="example@email.com">
+      <label for="rrn">주민등록번호</label>
+      <input type="text" id="rrn" placeholder="900101-1234567" maxlength="14" autocomplete="off">
+      <div class="hint">HRD-Net 등록 및 고용보험 가입여부 확인 목적으로만 사용되며, 암호화되어 저장됩니다.</div>
+    </section>
 
-    <label for="rrn">주민등록번호</label>
-    <input type="text" id="rrn" placeholder="900101-1234567" maxlength="14" autocomplete="off">
-    <div class="hint">HRD-Net 등록 및 고용보험 가입여부 확인 목적으로만 사용되며, 암호화되어 저장됩니다.</div>
+    <section class="block">
+      <div class="section-label">신청 과정 · 회차 선택</div>
+      <div id="courseGroups">
+        <div class="empty-rounds">과정 목록을 불러오는 중...</div>
+      </div>
+    </section>
 
-    <label>신청 과정 · 회차 선택</label>
-    <div id="courseGroups">
-      <div class="empty-rounds">과정 목록을 불러오는 중...</div>
-    </div>
+    <section class="block">
+      <div class="consent-block">
+        <div class="title">개인정보 수집·이용 동의</div>
+        <ul>
+          <li>수집항목: 성명, 연락처, 이메일</li>
+          <li>수집목적: 교육 신청 접수, 수강자격 확인, 교육 안내</li>
+          <li>보유기간: 사업 종료 후 2년간 보관 후 파기</li>
+        </ul>
+        <label class="consent-row">
+          <input type="checkbox" id="privacyCheck">
+          <span>위 개인정보 수집·이용에 동의합니다. (필수)</span>
+        </label>
+      </div>
 
-    <div class="notice-card" style="margin-top:20px;">
-      <b>개인정보 수집·이용 동의</b>
-      <ul>
-        <li>수집항목: 성명, 연락처, 이메일</li>
-        <li>수집목적: 교육 신청 접수, 수강자격 확인, 교육 안내</li>
-        <li>보유기간: 사업 종료 후 2년간 보관 후 파기</li>
-      </ul>
-    </div>
-    <label class="consent-row">
-      <input type="checkbox" id="privacyCheck">
-      <span>위 개인정보 수집·이용에 동의합니다. (필수)</span>
-    </label>
+      <div class="consent-block">
+        <div class="title">고유식별정보(주민등록번호) 처리 동의</div>
+        <ul>
+          <li>수집목적: 수강자격 확인, 고용보험 가입여부 확인, HRD-Net 등록 가능여부 확인</li>
+          <li>보유기간: 사업 종료 후 2년간 보관 후 파기</li>
+        </ul>
+        <label class="consent-row">
+          <input type="checkbox" id="rrnConsentCheck">
+          <span>위 고유식별정보 처리에 동의합니다. (필수)</span>
+        </label>
+      </div>
 
-    <div class="notice-card" style="margin-top:12px;">
-      <b>고유식별정보(주민등록번호) 처리 동의</b>
-      <ul>
-        <li>수집목적: 수강자격 확인, 고용보험 가입여부 확인, HRD-Net 등록 가능여부 확인</li>
-        <li>보유기간: 사업 종료 후 2년간 보관 후 파기</li>
-      </ul>
-    </div>
-    <label class="consent-row">
-      <input type="checkbox" id="rrnConsentCheck">
-      <span>위 고유식별정보 처리에 동의합니다. (필수)</span>
-    </label>
-
-    <label class="consent-row" style="margin-top:16px;">
-      <input type="checkbox" id="employedCheck">
-      <span>현재 고용보험에 가입된 <b>재직자</b>입니다. (재직자 대상 과정입니다)</span>
-    </label>
+      <div class="consent-block">
+        <label class="consent-row">
+          <input type="checkbox" id="employedCheck">
+          <span>현재 고용보험에 가입된 <b>재직자</b>입니다. (재직자 대상 과정입니다)</span>
+        </label>
+      </div>
+    </section>
 
     <button class="submit" id="submitBtn">신청하기</button>
     <div class="msg error" id="msg"></div>
   </div>
 
-  <div class="card stepped success-card" id="successCard" style="display:none;">
-    <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
-    <div class="glyph">◆ ◆ ◆</div>
+  <div class="success" id="successCard" style="display:none;">
+    <div class="mark">◆ ◆ ◆</div>
     <h2>신청 접수 완료</h2>
     <p>담당자 확인 후 안내드릴게요.<br>감사합니다.</p>
   </div>
@@ -305,15 +271,9 @@ async function loadCourses(){
     const group = document.createElement('div');
     group.className = 'type-group';
     group.innerHTML = `
-      <div class="type-head">
-        <div>
-          <div class="name">${t.name}</div>
-          ${t.description ? `<div class="desc">${t.description}</div>` : ''}
-        </div>
-      </div>
-      <div class="round-list"></div>
+      <div class="type-name">${t.name}</div>
+      ${t.description ? `<div class="type-desc">${t.description}</div>` : ''}
     `;
-    const list = group.querySelector('.round-list');
     myRounds.forEach(r => {
       const item = document.createElement('label');
       item.className = 'round-item';
@@ -327,10 +287,10 @@ async function loadCourses(){
       `;
       const checkbox = item.querySelector('input');
       checkbox.addEventListener('change', () => {
-        if (checkbox.checked){ selected.add(r.id); item.classList.add('checked'); }
-        else { selected.delete(r.id); item.classList.remove('checked'); }
+        if (checkbox.checked){ selected.add(r.id); }
+        else { selected.delete(r.id); }
       });
-      list.appendChild(item);
+      group.appendChild(item);
     });
     groupsEl.appendChild(group);
   });
