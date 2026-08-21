@@ -304,7 +304,17 @@
         <select id="filterRound"><option value="">전체 회차</option></select>
         <input type="text" id="filterSearch" placeholder="이름/연락처 검색">
       </div>
-      <div id="traineeGroups"><div class="empty-row">불러오는 중...</div></div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>이름</th><th>연락처</th><th>회사명</th><th>이메일</th>
+              <th>주민번호</th><th>신청 과정</th><th>상태</th><th>메모</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="traineeGroups"><tr><td colspan="10" class="empty-row">불러오는 중...</td></tr></tbody>
+        </table>
+      </div>
     </section>
 
     <section class="view" id="view-courses">
