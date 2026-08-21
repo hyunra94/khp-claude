@@ -17,9 +17,9 @@
     --bg:#FDFCFA;
     --paper:#FFFFFF;
     --ink:#141414;
-    --ink-soft:#5C5C58;
+    --ink-soft:#44433D;
     --line:#141414;
-    --line-soft:#D8D5CE;
+    --line-soft:#C7C3B8;
     --accent:#9B2E2E;
     --success:#33513C;
   }
@@ -65,10 +65,10 @@
   .notice{
     border-top:1px solid var(--line);
     border-bottom:1px solid var(--line);
-    padding:18px 0;
+    padding:20px 0;
     margin-bottom:30px;
-    font-size:12.5px;
-    line-height:2;
+    font-size:14px;
+    line-height:1.85;
     color:var(--ink-soft);
   }
   .notice b{color:var(--ink);font-weight:700;}
@@ -79,9 +79,9 @@
   section.block{margin-bottom:34px;}
   label{
     display:block;
-    font-size:10.5px;
+    font-size:11.5px;
     font-weight:700;
-    letter-spacing:0.14em;
+    letter-spacing:0.12em;
     text-transform:uppercase;
     color:var(--ink-soft);
     margin:24px 0 8px;
@@ -89,19 +89,18 @@
   label:first-of-type{margin-top:0;}
   input[type=text], input[type=tel], input[type=email]{
     width:100%;
-    padding:11px 2px;
-    border:none;
-    border-bottom:1.5px solid var(--line);
-    background:transparent;
+    padding:13px 14px;
+    border:1.5px solid var(--line);
+    background:#F7F5EF;
     font-family:inherit;
-    font-size:16px;
+    font-size:16.5px;
     color:var(--ink);
     outline:none;
-    transition:border-color .15s;
+    transition:border-color .15s, background .15s;
   }
-  input:focus{border-bottom-color:var(--accent);}
+  input:focus{border-color:var(--accent);background:#fff;}
   input::placeholder{color:#B7B3A9;}
-  .hint{font-size:11.5px;color:var(--ink-soft);margin-top:8px;line-height:1.6;}
+  .hint{font-size:12.5px;color:var(--ink-soft);margin-top:8px;line-height:1.65;}
 
   .section-label{
     font-family:'Pretendard', sans-serif;
@@ -111,8 +110,8 @@
     border-bottom:2px solid var(--line);
   }
   .type-group{margin-bottom:22px;}
-  .type-name{font-weight:700;font-size:14.5px;}
-  .type-desc{font-size:11px;color:var(--ink-soft);margin-top:3px;margin-bottom:10px;}
+  .type-name{font-weight:700;font-size:15.5px;}
+  .type-desc{font-size:12.5px;color:var(--ink-soft);margin-top:4px;margin-bottom:10px;line-height:1.6;}
   .round-item{
     display:flex;align-items:flex-start;gap:12px;
     padding:11px 0;
@@ -120,16 +119,16 @@
     cursor:pointer;
   }
   .round-item input{width:15px;height:15px;margin-top:3px;accent-color:var(--ink);flex:0 0 auto;}
-  .round-name{font-weight:700;font-size:13.5px;}
-  .round-date{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+  .round-name{font-weight:700;font-size:14.5px;}
+  .round-date{font-size:12px;color:var(--ink-soft);margin-top:3px;}
   .empty-rounds{padding:16px 0;color:var(--ink-soft);font-size:12.5px;}
 
   .consent-block{border-top:1px solid var(--line-soft);padding-top:16px;margin-top:16px;}
-  .consent-block .title{font-weight:700;font-size:12.5px;margin-bottom:8px;}
-  .consent-block ul{margin:0 0 12px;padding-left:18px;font-size:11.5px;color:var(--ink-soft);line-height:1.8;}
+  .consent-block .title{font-weight:700;font-size:13.5px;margin-bottom:8px;}
+  .consent-block ul{margin:0 0 12px;padding-left:18px;font-size:13px;color:var(--ink-soft);line-height:1.75;}
   .consent-row{
     display:flex;align-items:flex-start;gap:10px;
-    font-size:12.5px;line-height:1.6;color:var(--ink);
+    font-size:13.5px;line-height:1.6;color:var(--ink);
   }
   .consent-row input{width:15px;height:15px;margin-top:2px;accent-color:var(--ink);flex:0 0 auto;}
 
@@ -162,7 +161,6 @@
   <div class="notice">
     <b>교육방식</b> 오프라인 집체교육(실습 중심) · <b>모집방법</b> 선착순 모집<br>
     <b>모집기준</b> 교육 일정의 80% 이상 참여 가능자 · <b>교육비용</b> 전액 지원
-    (<span class="warn">단, 대기업 종사자는 20% 자비 부담 발생</span>)
     <ul>
       <li>교육 일정은 상황에 따라 변경될 수 있음</li>
       <li>모집인원이 저조할 시 통합 운영 될 수 있음</li>
@@ -171,6 +169,10 @@
   </div>
 
   <div id="formCard">
+    <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+      <label for="website">웹사이트 (입력하지 마세요)</label>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+    </div>
     <section class="block">
       <div class="section-label">신청자 정보</div>
       <label for="name">이름</label>
@@ -179,8 +181,16 @@
       <label for="phone">연락처</label>
       <input type="tel" id="phone" placeholder="010-0000-0000">
 
-      <label for="email">이메일 (선택)</label>
+      <label for="email">이메일</label>
       <input type="email" id="email" placeholder="example@email.com">
+
+      <label for="company">회사명</label>
+      <input type="text" id="company" placeholder="예: 전주엠비씨">
+
+      <label class="consent-row" style="margin-top:18px;">
+        <input type="checkbox" id="employedCheck">
+        <span>현재 고용보험에 가입된 <b>재직자</b>입니다. (재직자 대상 과정입니다. 대기업 종사자는 20% 자비 부담이 발생할 수 있습니다)</span>
+      </label>
 
       <label for="rrn">주민등록번호</label>
       <input type="text" id="rrn" placeholder="900101-1234567" maxlength="14" autocomplete="off">
@@ -214,16 +224,10 @@
           <li>수집목적: 수강자격 확인, 고용보험 가입여부 확인, HRD-Net 등록 가능여부 확인</li>
           <li>보유기간: 사업 종료 후 2년간 보관 후 파기</li>
         </ul>
+      <div class="consent-block">
         <label class="consent-row">
           <input type="checkbox" id="rrnConsentCheck">
           <span>위 고유식별정보 처리에 동의합니다. (필수)</span>
-        </label>
-      </div>
-
-      <div class="consent-block">
-        <label class="consent-row">
-          <input type="checkbox" id="employedCheck">
-          <span>현재 고용보험에 가입된 <b>재직자</b>입니다. (재직자 대상 과정입니다)</span>
         </label>
       </div>
     </section>
@@ -304,13 +308,17 @@ submitBtn.addEventListener('click', async () => {
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
+  const company = document.getElementById('company').value.trim();
   const rrn = document.getElementById('rrn').value.replace(/\D/g, '');
+  const honeypot = document.getElementById('website').value;
   const employedConfirmed = document.getElementById('employedCheck').checked;
   const privacyConsent = document.getElementById('privacyCheck').checked;
   const rrnConsent = document.getElementById('rrnConsentCheck').checked;
 
   if (!name){ msgEl.textContent = '이름을 입력해주세요.'; return; }
   if (!phone){ msgEl.textContent = '연락처를 입력해주세요.'; return; }
+  if (!email){ msgEl.textContent = '이메일을 입력해주세요.'; return; }
+  if (!company){ msgEl.textContent = '회사명을 입력해주세요.'; return; }
   if (rrn.length !== 13){ msgEl.textContent = '주민등록번호 13자리를 정확히 입력해주세요.'; return; }
   if (selected.size === 0){ msgEl.textContent = '신청할 회차를 1개 이상 선택해주세요.'; return; }
   if (!privacyConsent){ msgEl.textContent = '개인정보 수집·이용에 동의해주세요.'; return; }
@@ -322,13 +330,15 @@ submitBtn.addEventListener('click', async () => {
 
   const traineeId = crypto.randomUUID();
   const { error: traineeError } = await sb.rpc('submit_trainee', {
-    p_id: traineeId, p_name: name, p_phone: phone, p_email: email || null,
+    p_id: traineeId, p_name: name, p_phone: phone, p_email: email, p_company_name: company,
     p_employed: employedConfirmed, p_privacy: privacyConsent, p_rrn_consent: rrnConsent,
-    p_resident_number: rrn
+    p_resident_number: rrn, p_honeypot: honeypot
   });
 
   if (traineeError){
-    msgEl.textContent = '오류가 발생했습니다. 다시 시도해주세요.';
+    msgEl.textContent = traineeError.message && traineeError.message.includes('다시 시도')
+      ? traineeError.message
+      : '오류가 발생했습니다. 다시 시도해주세요.';
     submitBtn.disabled = false;
     submitBtn.textContent = '신청하기';
     return;
