@@ -17,10 +17,10 @@
     --bg:#FDFCFA;
     --paper:#FFFFFF;
     --ink:#141414;
-    --ink-soft:#5C5C58;
+    --ink-soft:#44433D;
     --muted:#8A867D;
     --line:#141414;
-    --line-soft:#D8D5CE;
+    --line-soft:#C7C3B8;
     --accent:#9B2E2E;
     --success:#33513C;
     --warn:#7A5C1E;
@@ -44,16 +44,16 @@
   }
   .login-card .kicker{text-align:center;font-size:11px;letter-spacing:0.3em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:14px;}
   .login-card h1{font-family:'Pretendard', sans-serif;font-size:24px;margin:0 0 8px;text-align:center;}
-  .login-card .sub{font-size:12.5px;color:var(--ink-soft);text-align:center;margin-bottom:28px;border-top:1px solid var(--line-soft);padding-top:12px;}
+  .login-card .sub{font-size:13.5px;color:var(--ink-soft);text-align:center;margin-bottom:28px;border-top:1px solid var(--line-soft);padding-top:12px;}
   .login-card label{
     display:block;font-size:10.5px;font-weight:700;letter-spacing:0.12em;
     text-transform:uppercase;margin:16px 0 8px;color:var(--ink-soft);
   }
   .login-card input{
-    width:100%;padding:11px 2px;border:none;border-bottom:1.5px solid var(--line);
-    background:transparent;font-family:inherit;font-size:15px;outline:none;color:var(--ink);
+    width:100%;padding:13px 14px;border:1.5px solid var(--line);
+    background:#F7F5EF;font-family:inherit;font-size:15.5px;outline:none;color:var(--ink);
   }
-  .login-card input:focus{border-bottom-color:var(--accent);}
+  .login-card input:focus{border-color:var(--accent);background:#fff;}
   .login-card button{
     width:100%;margin-top:24px;padding:13px;border:none;background:var(--ink);
     color:var(--paper);font-family:inherit;font-size:13px;font-weight:700;letter-spacing:0.08em;
@@ -91,10 +91,10 @@
     letter-spacing:0.1em;text-transform:uppercase;font-weight:700;
   }
   .add-form input, .add-form select{
-    width:100%;padding:10px 2px;border:none;border-bottom:1.5px solid var(--line);
-    background:transparent;font-family:inherit;font-size:13.5px;outline:none;color:var(--ink);
+    width:100%;padding:10px 11px;border:1.5px solid var(--line);
+    background:#F7F5EF;font-family:inherit;font-size:14px;outline:none;color:var(--ink);
   }
-  .add-form input:focus, .add-form select:focus{border-bottom-color:var(--accent);}
+  .add-form input:focus, .add-form select:focus{border-color:var(--accent);background:#fff;}
   .add-form button{
     padding:11px 20px;border:1.5px solid var(--line);background:transparent;color:var(--ink);
     font-family:inherit;font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;
@@ -107,11 +107,11 @@
     letter-spacing:0.1em;text-transform:uppercase;font-weight:700;
   }
   .new-type-row input{
-    width:100%;padding:10px 2px;border:none;border-bottom:1.5px solid var(--line);
-    background:transparent;font-family:inherit;font-size:13.5px;outline:none;color:var(--ink);
+    width:100%;padding:10px 11px;border:1.5px solid var(--line);
+    background:#F7F5EF;font-family:inherit;font-size:14px;outline:none;color:var(--ink);
   }
 
-  table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
   th{
     text-align:left;padding:9px 8px;color:var(--ink-soft);font-size:10px;text-transform:uppercase;
     letter-spacing:0.06em;border-bottom:2px solid var(--line);font-weight:700;
@@ -130,12 +130,12 @@
   .mini-btn:hover{background:var(--ink);color:var(--paper);}
   .mini-btn.saved{border-color:var(--success);color:var(--success);background:transparent;}
   .mini-btn.full{border-color:var(--accent);color:var(--accent);}
-  .empty-row{text-align:center;padding:34px;color:var(--ink-soft);font-size:12.5px;}
+  .empty-row{text-align:center;padding:34px;color:var(--ink-soft);font-size:13.5px;}
 
   .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
   .filters select, .filters input{
-    padding:9px 2px;border:none;border-bottom:1.5px solid var(--line);background:transparent;
-    font-family:inherit;font-size:12.5px;color:var(--ink);outline:none;
+    padding:9px 10px;border:1.5px solid var(--line);background:#F7F5EF;
+    font-family:inherit;font-size:13.5px;color:var(--ink);outline:none;
   }
 
   /* trainee-grouped applications */
@@ -145,7 +145,7 @@
     border-bottom:1.5px solid var(--line);
   }
   .trainee-id{font-family:'Pretendard', sans-serif;font-weight:900;font-size:16px;}
-  .trainee-meta{font-size:11.5px;color:var(--ink-soft);margin-top:3px;}
+  .trainee-meta{font-size:12.5px;color:var(--ink-soft);margin-top:3px;}
   .rrn-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
   .rrn-value{font-family:monospace;font-size:12px;color:var(--ink-soft);}
   .trainee-body{padding:14px 16px;display:flex;gap:24px;flex-wrap:wrap;}
@@ -155,10 +155,10 @@
     letter-spacing:0.1em;text-transform:uppercase;font-weight:700;
   }
   .memo-input{
-    width:100%;min-height:64px;padding:9px 2px;border:none;border-bottom:1.5px solid var(--line-soft);
-    background:transparent;font-family:inherit;font-size:12.5px;color:var(--ink);outline:none;resize:vertical;
+    width:100%;min-height:70px;padding:11px 12px;border:1.5px solid var(--line-soft);
+    background:#F7F5EF;font-family:inherit;font-size:13.5px;color:var(--ink);outline:none;resize:vertical;
   }
-  .memo-input:focus{border-bottom-color:var(--accent);}
+  .memo-input:focus{border-color:var(--accent);background:#fff;}
   .apps-col{flex:1.4;min-width:260px;}
   .apps-col label{
     display:block;font-size:10px;color:var(--ink-soft);margin-bottom:7px;
@@ -169,7 +169,7 @@
     padding:9px 0;border-bottom:1px solid var(--line-soft);
   }
   .app-row:last-child{border-bottom:none;}
-  .app-round{font-size:12.5px;font-weight:700;}
+  .app-round{font-size:13.5px;font-weight:700;}
   .app-round .type{font-size:10.5px;color:var(--ink-soft);font-weight:400;margin-left:6px;}
   .app-sub{font-size:10.5px;color:var(--ink-soft);margin-top:3px;}
   .dup-badge{
@@ -434,7 +434,7 @@ document.getElementById('addRoundBtn').addEventListener('click', async () => {
 async function loadApplications(){
   const { data, error } = await sb
     .from('applications')
-    .select('id, status, applied_at, cancelled_at, trainee_id, trainees(id,name,phone,email,memo), course_rounds(id,label,course_types(name))')
+    .select('id, status, applied_at, cancelled_at, trainee_id, trainees(id,name,phone,email,company_name,memo), course_rounds(id,label,course_types(name))')
     .order('applied_at', { ascending: false });
   if (error){
     document.getElementById('traineeGroups').innerHTML = `<div class="empty-row">불러오기 실패: ${error.message}</div>`;
@@ -477,7 +477,7 @@ function renderTraineeGroups(){
       <div class="trainee-head">
         <div>
           <div class="trainee-id">${g.trainee?.name || '-'}</div>
-          <div class="trainee-meta">${g.trainee?.phone || '-'} ${g.trainee?.email ? '· ' + g.trainee.email : ''}</div>
+          <div class="trainee-meta">${g.trainee?.phone || '-'} ${g.trainee?.email ? '· ' + g.trainee.email : ''} ${g.trainee?.company_name ? '· ' + g.trainee.company_name : ''}</div>
         </div>
         <div class="rrn-row">
           <span class="rrn-value" data-trainee-id="${g.trainee?.id}">●●●●●●-●●●●●●●</span>
