@@ -76,6 +76,8 @@
   .notice .warn{color:var(--accent);font-weight:700;}
   .notice ul{margin:8px 0 0;padding-left:18px;}
   .notice a{color:var(--ink);text-decoration:underline;}
+  .notice .confirm-line{margin-top:12px;color:var(--success);font-weight:700;font-size:13px;}
+  .notice .confirm-line::before{content:"✓ ";}
 
   section.block{margin-bottom:34px;}
   label{
@@ -88,7 +90,7 @@
     margin:24px 0 8px;
   }
   label:first-of-type{margin-top:0;}
-  input[type=text], input[type=tel], input[type=email]{
+  input[type=text], input[type=tel], input[type=email], select{
     width:100%;
     padding:13px 14px;
     border:1.5px solid var(--line);
@@ -99,7 +101,7 @@
     outline:none;
     transition:border-color .15s, background .15s;
   }
-  input:focus{border-color:var(--accent);background:#fff;}
+  input:focus, select:focus{border-color:var(--accent);background:#fff;}
   input::placeholder{color:#B7B3A9;}
   .hint{font-size:12.5px;color:var(--ink-soft);margin-top:8px;line-height:1.65;}
 
@@ -136,6 +138,18 @@
   .consent-block.done{background:var(--fill);border-color:var(--success);}
   .consent-block.done .title{color:var(--success);}
 
+  .rrn-split{display:flex;align-items:center;gap:10px;}
+  .rrn-split input{
+    flex:1;min-width:0;text-align:center;letter-spacing:0.08em;
+    padding:13px 8px;border:1.5px solid var(--line);background:var(--fill);
+    font-family:inherit;font-size:16.5px;color:var(--ink);outline:none;
+    transition:border-color .15s, background .15s;
+  }
+  .rrn-split input:focus{border-color:var(--accent);background:#fff;}
+  .rrn-split #rrn1{flex:1.05;}
+  .rrn-split #rrn2{flex:1.2;}
+  .rrn-dash{font-weight:700;font-size:18px;color:var(--ink-soft);flex:0 0 auto;}
+
   button.submit{
     width:100%;margin-top:32px;padding:16px;
     border:none;background:var(--ink);color:var(--paper);
@@ -148,10 +162,36 @@
   .msg{margin-top:14px;font-size:12.5px;text-align:center;min-height:16px;}
   .msg.error{color:var(--accent);}
 
-  .success{text-align:center;padding:60px 0;border-top:3px solid var(--line);}
-  .success .mark{font-size:13px;letter-spacing:0.3em;color:var(--ink-soft);margin-bottom:16px;}
-  .success h2{font-family:'Pretendard';font-weight:900;font-size:26px;margin:0 0 14px;}
-  .success p{font-size:13.5px;color:var(--ink-soft);line-height:1.8;margin:0;}
+  .success{padding:50px 0 0;border-top:3px solid var(--line);}
+  .success .mark{text-align:center;font-size:13px;letter-spacing:0.3em;color:var(--ink-soft);margin-bottom:16px;}
+  .success h2{font-family:'Pretendard';font-weight:900;font-size:26px;margin:0 0 14px;text-align:center;}
+  .success > p{font-size:13.5px;color:var(--ink-soft);line-height:1.8;margin:0 0 36px;text-align:center;}
+
+  .summary-row{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--line-soft);font-size:14px;}
+  .summary-row .label{color:var(--ink-soft);font-weight:700;letter-spacing:0.03em;min-width:90px;flex:0 0 auto;}
+  .summary-row .value{text-align:right;flex:1;word-break:break-word;}
+  .summary-courses-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);margin:20px 0 10px;}
+  .summary-course-item{padding:10px 0;border-bottom:1px solid var(--line-soft);}
+  .summary-course-item .c-name{font-weight:700;font-size:14px;}
+  .summary-course-item .c-type{font-size:11px;color:var(--ink-soft);margin-left:6px;}
+  .summary-course-item .c-date{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+
+  .edit-form label{margin:16px 0 7px;}
+  .edit-form label:first-of-type{margin-top:0;}
+  .edit-actions{display:flex;gap:10px;margin-top:22px;}
+  .edit-actions button{
+    flex:1;padding:13px;border:1.5px solid var(--line);background:transparent;color:var(--ink);
+    font-family:inherit;font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;
+  }
+  .edit-actions button.primary{background:var(--ink);color:var(--paper);}
+  .edit-actions button:hover{opacity:0.85;}
+
+  .summary-edit-toggle{
+    display:block;width:100%;margin-top:24px;padding:13px;
+    border:1.5px solid var(--line);background:transparent;color:var(--ink);
+    font-family:inherit;font-size:12.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;
+  }
+  .summary-edit-toggle:hover{background:var(--fill);}
 </style>
 </head>
 <body>
@@ -208,13 +248,32 @@
       <label for="company">회사명</label>
       <input type="text" id="company" placeholder="예: 전주MBC">
 
+      <label for="sourceChannel">이 교육을 알게 된 경로</label>
+      <select id="sourceChannel">
+        <option value="">선택해주세요</option>
+        <option value="방송매체홍보(TV)">방송매체홍보(TV)</option>
+        <option value="방송매체홍보(라디오)">방송매체홍보(라디오)</option>
+        <option value="지인 소개">지인 소개</option>
+        <option value="SNS(인스타그램)">SNS(인스타그램)</option>
+        <option value="SNS(페이스북)">SNS(페이스북)</option>
+        <option value="SNS(당근)">SNS(당근)</option>
+        <option value="지자체 홈페이지">지자체 홈페이지</option>
+        <option value="문자 안내">문자 안내</option>
+        <option value="현수막/포스터">현수막/포스터</option>
+        <option value="기타">기타</option>
+      </select>
+
       <label class="consent-row" style="margin-top:18px;">
         <input type="checkbox" id="employedCheck">
         <span>현재 고용보험에 가입된 <b>재직자</b>입니다. (재직자 대상 과정입니다. 대기업 종사자는 20% 자비 부담이 발생할 수 있습니다)</span>
       </label>
 
-      <label for="rrn">주민등록번호</label>
-      <input type="text" id="rrn" placeholder="900101-1234567" maxlength="14" autocomplete="off">
+      <label for="rrn1">주민등록번호</label>
+      <div class="rrn-split">
+        <input type="text" id="rrn1" inputmode="numeric" placeholder="900101" maxlength="6" autocomplete="off">
+        <span class="rrn-dash">-</span>
+        <input type="text" id="rrn2" inputmode="numeric" placeholder="1234567" maxlength="7" autocomplete="off">
+      </div>
       <div class="hint">HRD-Net 등록 및 고용보험 가입여부 확인 목적으로만 사용되며, 암호화되어 저장됩니다.</div>
 
       <div class="consent-block" id="rrnConsentBlock" style="margin-top:16px;">
@@ -244,7 +303,57 @@
   <div class="success" id="successCard" style="display:none;">
     <div class="mark">◆ ◆ ◆</div>
     <h2>신청 접수 완료</h2>
-    <p>담당자 확인 후 안내드릴게요.<br>감사합니다.</p>
+    <p>담당자 확인 후 안내드릴게요. 감사합니다.</p>
+
+    <div class="notice">
+      <b>협약서 제출 안내</b>
+      <ul>
+        <li>본 과정은 재직자 대상 지원 과정으로, 소속 기업의 협약서 제출이 필요할 수 있습니다.</li>
+        <li>협약서 제출 가능 여부가 불확실한 경우 담당자 안내에 따라 확인 절차가 진행됩니다.</li>
+        <li>대기업 종사자는 교육비의 20% 자비 부담이 발생할 수 있습니다.</li>
+      </ul>
+      <div class="confirm-line">협약서 제출 안내를 확인했습니다.</div>
+    </div>
+
+    <div class="notice">
+      <b>취소 및 노쇼 안내</b>
+      <ul>
+        <li>선착순 모집 과정이므로 무단 불참은 다른 신청자의 수강 기회를 제한할 수 있습니다.</li>
+        <li>참여가 어려운 경우 교육 시작 전 담당자에게 취소 의사를 알려주세요.</li>
+      </ul>
+      <div class="confirm-line">취소 및 노쇼 안내를 확인했습니다.</div>
+    </div>
+
+    <div class="section-label">신청 내용</div>
+    <div id="summaryView">
+      <div class="summary-row"><span class="label">이름</span><span class="value" id="sumName"></span></div>
+      <div class="summary-row"><span class="label">연락처</span><span class="value" id="sumPhone"></span></div>
+      <div class="summary-row"><span class="label">이메일</span><span class="value" id="sumEmail"></span></div>
+      <div class="summary-row"><span class="label">회사명</span><span class="value" id="sumCompany"></span></div>
+      <div class="summary-row"><span class="label">유입 경로</span><span class="value" id="sumSource"></span></div>
+      <div class="summary-courses-label">신청 과정</div>
+      <div id="sumCourses"></div>
+      <button class="summary-edit-toggle" id="editSummaryBtn">신청 내용 수정하기</button>
+      <div class="msg" id="editMsg"></div>
+    </div>
+
+    <div id="summaryEdit" class="edit-form" style="display:none;">
+      <label for="editName">이름</label>
+      <input type="text" id="editName">
+      <label for="editPhone">연락처</label>
+      <input type="tel" id="editPhone">
+      <label for="editEmail">이메일</label>
+      <input type="email" id="editEmail">
+      <label for="editCompany">회사명</label>
+      <input type="text" id="editCompany">
+      <label for="editSource">이 교육을 알게 된 경로</label>
+      <select id="editSource"></select>
+      <div class="hint">신청 과정(회차)과 주민등록번호는 이 화면에서 수정할 수 없습니다. 변경이 필요하면 담당자에게 연락해주세요.</div>
+      <div class="edit-actions">
+        <button id="cancelEditBtn">취소</button>
+        <button class="primary" id="saveEditBtn">저장</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -258,6 +367,9 @@ const msgEl = document.getElementById('msg');
 const submitBtn = document.getElementById('submitBtn');
 const selected = new Set();
 const DRAFT_KEY = 'khp_apply_draft_v1';
+let allTypes = [];
+let allRounds = [];
+let submittedTraineeId = null;
 
 // ---------- 동의 체크박스 접기/펼치기 ----------
 function wireCollapse(blockId, checkboxId, detailsSelector){
@@ -285,7 +397,9 @@ function saveDraft(){
     phone: document.getElementById('phone').value,
     email: document.getElementById('email').value,
     company: document.getElementById('company').value,
-    rrn: document.getElementById('rrn').value,
+    sourceChannel: document.getElementById('sourceChannel').value,
+    rrn1: document.getElementById('rrn1').value,
+    rrn2: document.getElementById('rrn2').value,
     employed: document.getElementById('employedCheck').checked,
     privacy: document.getElementById('privacyCheck').checked,
     rrnConsent: document.getElementById('rrnConsentCheck').checked,
@@ -309,7 +423,9 @@ if (draft){
   document.getElementById('phone').value = draft.phone || '';
   document.getElementById('email').value = draft.email || '';
   document.getElementById('company').value = draft.company || '';
-  document.getElementById('rrn').value = draft.rrn || '';
+  document.getElementById('sourceChannel').value = draft.sourceChannel || '';
+  document.getElementById('rrn1').value = draft.rrn1 || '';
+  document.getElementById('rrn2').value = draft.rrn2 || '';
   document.getElementById('employedCheck').checked = !!draft.employed;
   document.getElementById('privacyCheck').checked = !!draft.privacy;
   document.getElementById('rrnConsentCheck').checked = !!draft.rrnConsent;
@@ -327,9 +443,15 @@ document.getElementById('phone').addEventListener('input', (e) => {
   e.target.value = formatted;
 });
 
-document.getElementById('rrn').addEventListener('input', (e) => {
-  let digits = e.target.value.replace(/\D/g, '').slice(0, 13);
-  e.target.value = digits.length > 6 ? digits.slice(0,6) + '-' + digits.slice(6) : digits;
+document.getElementById('rrn1').addEventListener('input', (e) => {
+  e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6);
+  if (e.target.value.length === 6) document.getElementById('rrn2').focus();
+});
+document.getElementById('rrn2').addEventListener('input', (e) => {
+  e.target.value = e.target.value.replace(/\D/g, '').slice(0, 7);
+});
+document.getElementById('rrn2').addEventListener('keydown', (e) => {
+  if (e.key === 'Backspace' && e.target.value.length === 0) document.getElementById('rrn1').focus();
 });
 
 async function loadCourses(){
@@ -340,10 +462,12 @@ async function loadCourses(){
     groupsEl.innerHTML = '<div class="empty-rounds">현재 신청 가능한 과정이 없습니다</div>';
     return;
   }
+  allTypes = types;
+  allRounds = rounds || [];
 
   groupsEl.innerHTML = '';
   types.forEach(t => {
-    const myRounds = (rounds || []).filter(r => r.course_type_id === t.id);
+    const myRounds = allRounds.filter(r => r.course_type_id === t.id);
     if (myRounds.length === 0) return;
 
     const group = document.createElement('div');
@@ -391,7 +515,8 @@ submitBtn.addEventListener('click', async () => {
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
   const company = document.getElementById('company').value.trim();
-  const rrn = document.getElementById('rrn').value.replace(/\D/g, '');
+  const sourceChannel = document.getElementById('sourceChannel').value;
+  const rrn = (document.getElementById('rrn1').value + document.getElementById('rrn2').value).replace(/\D/g, '');
   const honeypot = document.getElementById('website').value;
   const employedConfirmed = document.getElementById('employedCheck').checked;
   const privacyConsent = document.getElementById('privacyCheck').checked;
@@ -413,6 +538,7 @@ submitBtn.addEventListener('click', async () => {
   const traineeId = crypto.randomUUID();
   const { error: traineeError } = await sb.rpc('submit_trainee', {
     p_id: traineeId, p_name: name, p_phone: phone, p_email: email, p_company_name: company,
+    p_source_channel: sourceChannel || null,
     p_employed: employedConfirmed, p_privacy: privacyConsent, p_rrn_consent: rrnConsent,
     p_resident_number: rrn, p_honeypot: honeypot
   });
@@ -438,9 +564,90 @@ submitBtn.addEventListener('click', async () => {
     return;
   }
 
+  submittedTraineeId = traineeId;
+  renderSummary({ name, phone, email, company, sourceChannel, roundIds: Array.from(selected) });
   clearDraft();
   document.getElementById('formCard').style.display = 'none';
   document.getElementById('successCard').style.display = 'block';
+});
+
+// ---------- 신청 내용 요약 + 수정 ----------
+function renderSummary(info){
+  document.getElementById('sumName').textContent = info.name;
+  document.getElementById('sumPhone').textContent = info.phone;
+  document.getElementById('sumEmail').textContent = info.email;
+  document.getElementById('sumCompany').textContent = info.company;
+  document.getElementById('sumSource').textContent = info.sourceChannel || '-';
+
+  const coursesEl = document.getElementById('sumCourses');
+  coursesEl.innerHTML = info.roundIds.map(id => {
+    const r = allRounds.find(x => x.id === id);
+    if (!r) return '';
+    const t = allTypes.find(x => x.id === r.course_type_id);
+    const dateStr = r.start_date ? `${r.start_date}${r.end_date && r.end_date !== r.start_date ? ' ~ ' + r.end_date : ''}` : '';
+    return `
+      <div class="summary-course-item">
+        <span class="c-name">${r.label}</span><span class="c-type">${t ? t.name : ''}</span>
+        ${dateStr ? `<div class="c-date">${dateStr}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+
+  // 수정 폼에도 같은 값 채워두기
+  document.getElementById('editName').value = info.name;
+  document.getElementById('editPhone').value = info.phone;
+  document.getElementById('editEmail').value = info.email;
+  document.getElementById('editCompany').value = info.company;
+  const editSourceSel = document.getElementById('editSource');
+  editSourceSel.innerHTML = document.getElementById('sourceChannel').innerHTML;
+  editSourceSel.value = info.sourceChannel || '';
+}
+
+document.getElementById('editSummaryBtn').addEventListener('click', () => {
+  document.getElementById('summaryView').style.display = 'none';
+  document.getElementById('summaryEdit').style.display = 'block';
+});
+document.getElementById('cancelEditBtn').addEventListener('click', () => {
+  document.getElementById('summaryEdit').style.display = 'none';
+  document.getElementById('summaryView').style.display = 'block';
+});
+document.getElementById('saveEditBtn').addEventListener('click', async () => {
+  const editMsg = document.getElementById('editMsg');
+  const btn = document.getElementById('saveEditBtn');
+  const name = document.getElementById('editName').value.trim();
+  const phone = document.getElementById('editPhone').value.trim();
+  const email = document.getElementById('editEmail').value.trim();
+  const company = document.getElementById('editCompany').value.trim();
+  const sourceChannel = document.getElementById('editSource').value;
+
+  if (!name || !phone || !email || !company){
+    editMsg.style.color = 'var(--accent)';
+    editMsg.textContent = '이름/연락처/이메일/회사명은 비워둘 수 없습니다.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '저장 중...';
+  const { error } = await sb.rpc('update_own_trainee', {
+    p_id: submittedTraineeId, p_name: name, p_phone: phone, p_email: email,
+    p_company_name: company, p_source_channel: sourceChannel || null
+  });
+  btn.disabled = false;
+  btn.textContent = '저장';
+
+  if (error){
+    editMsg.style.color = 'var(--accent)';
+    editMsg.textContent = '수정 중 오류가 발생했습니다. 다시 시도해주세요.';
+    return;
+  }
+
+  renderSummary({
+    name, phone, email, company, sourceChannel,
+    roundIds: Array.from(selected)
+  });
+  document.getElementById('summaryEdit').style.display = 'none';
+  document.getElementById('summaryView').style.display = 'block';
+  editMsg.textContent = '';
 });
 </script>
 </body>
