@@ -14,17 +14,23 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
-    --bg:#FDFCFA;
-    --paper:#FFFFFF;
-    --ink:#141414;
-    --ink-soft:#44433D;
-    --muted:#8A867D;
-    --line:#141414;
-    --line-soft:#C7C3B8;
-    --fill:#F7F5EF;
-    --accent:#9B2E2E;
-    --success:#33513C;
-    --warn:#7A5C1E;
+    --bg:#EFF2F7;
+    --card:#FFFFFF;
+    --ink:#1E2430;
+    --ink-soft:#6B7280;
+    --muted:#9CA3AF;
+    --border:#E4E8EF;
+    --primary:#3B6FD6;
+    --primary-soft:#E9F0FD;
+    --primary-dark:#2B57B0;
+    --success:#1F9D55;
+    --success-soft:#E5F7EB;
+    --warn:#B7791F;
+    --warn-soft:#FDF3E1;
+    --danger:#D6455A;
+    --danger-soft:#FCE9EC;
+    --field-bg:#F6F8FB;
+    --shadow:0 1px 2px rgba(20,24,34,0.04), 0 4px 14px rgba(20,24,34,0.05);
   }
   *{box-sizing:border-box;}
   body{
@@ -38,183 +44,186 @@
   /* ---------- login ---------- */
   #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
   .login-card{
-    background:var(--paper);
+    background:var(--card);
     padding:40px 34px;
     width:100%;max-width:380px;
-    border:1.5px solid var(--line);
+    border-radius:16px;
+    box-shadow:var(--shadow);
   }
-  .login-card .kicker{text-align:center;font-size:11px;letter-spacing:0.3em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:14px;}
-  .login-card h1{font-family:'Pretendard';font-weight:900;font-size:24px;margin:0 0 8px;text-align:center;}
-  .login-card .sub{font-size:13.5px;color:var(--ink-soft);text-align:center;margin-bottom:28px;border-top:1px solid var(--line-soft);padding-top:12px;}
+  .login-card .kicker{text-align:center;font-size:11px;letter-spacing:0.24em;color:var(--primary);text-transform:uppercase;margin-bottom:14px;font-weight:700;}
+  .login-card h1{font-family:'Pretendard';font-weight:800;font-size:23px;margin:0 0 8px;text-align:center;}
+  .login-card .sub{font-size:13px;color:var(--ink-soft);text-align:center;margin-bottom:26px;}
   .login-card label{
-    display:block;font-size:10.5px;font-weight:700;letter-spacing:0.12em;
-    text-transform:uppercase;margin:16px 0 8px;color:var(--ink-soft);
+    display:block;font-size:11px;font-weight:700;letter-spacing:0.04em;
+    margin:15px 0 7px;color:var(--ink-soft);
   }
   .login-card input{
-    width:100%;padding:13px 14px;border:1.5px solid var(--line);
-    background:var(--fill);font-family:inherit;font-size:15.5px;outline:none;color:var(--ink);
+    width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;
+    background:var(--field-bg);font-family:inherit;font-size:15px;outline:none;color:var(--ink);
   }
-  .login-card input:focus{border-color:var(--accent);background:#fff;}
+  .login-card input:focus{border-color:var(--primary);background:#fff;}
   .login-card button{
-    width:100%;margin-top:24px;padding:13px;border:none;background:var(--ink);
-    color:var(--paper);font-family:inherit;font-size:13px;font-weight:700;letter-spacing:0.08em;
-    text-transform:uppercase;cursor:pointer;
+    width:100%;margin-top:22px;padding:13px;border:none;border-radius:10px;background:var(--primary);
+    color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;
+    box-shadow:0 6px 16px rgba(59,111,214,0.28);
   }
-  .login-card button:hover{background:#000;}
-  .login-toggle{text-align:center;margin-top:16px;font-size:12px;color:var(--ink-soft);text-decoration:underline;cursor:pointer;}
-  .login-msg{margin-top:12px;font-size:12px;color:var(--accent);text-align:center;min-height:16px;}
+  .login-card button:hover{background:var(--primary-dark);}
+  .login-toggle{text-align:center;margin-top:16px;font-size:12.5px;color:var(--primary);cursor:pointer;font-weight:600;}
+  .login-msg{margin-top:12px;font-size:12px;color:var(--danger);text-align:center;min-height:16px;}
 
   /* ---------- dashboard shell ---------- */
   #dashboard{display:none;min-height:100vh;}
   #dashboard.show{display:flex;}
   .sidebar{
     width:224px;flex:0 0 224px;
-    border-right:1.5px solid var(--line);
     display:flex;flex-direction:column;
     position:sticky;top:0;height:100vh;
-    background:var(--paper);
+    background:var(--card);
+    box-shadow:1px 0 0 var(--border);
   }
-  .sidebar-brand{padding:24px 20px;border-bottom:1.5px solid var(--line);}
-  .sidebar-brand .kicker{font-size:10px;letter-spacing:0.22em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:7px;}
-  .sidebar-brand h1{font-family:'Pretendard';font-weight:900;font-size:17px;margin:0;line-height:1.35;}
-  .nav{flex:1;padding:14px 0;overflow-y:auto;}
+  .sidebar-brand{padding:24px 20px;}
+  .sidebar-brand .kicker{font-size:10px;letter-spacing:0.18em;color:var(--primary);text-transform:uppercase;margin-bottom:7px;font-weight:700;}
+  .sidebar-brand h1{font-family:'Pretendard';font-weight:800;font-size:16.5px;margin:0;line-height:1.35;color:var(--ink);}
+  .nav{flex:1;padding:10px 12px;overflow-y:auto;}
   .nav-item{
-    display:block;width:100%;text-align:left;
-    padding:12px 20px;border:none;background:transparent;
-    font-family:inherit;font-size:13.5px;color:var(--ink);
-    cursor:pointer;border-left:3px solid transparent;
+    display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+    padding:11px 14px;border:none;background:transparent;border-radius:10px;
+    font-family:inherit;font-size:13.5px;color:var(--ink-soft);
+    cursor:pointer;margin-bottom:4px;font-weight:600;
   }
-  .nav-item .num{color:var(--ink-soft);font-size:10.5px;margin-right:9px;letter-spacing:0.03em;}
-  .nav-item:hover{background:var(--fill);}
-  .nav-item.active{border-left-color:var(--ink);background:var(--fill);font-weight:700;}
-  .sidebar-footer{padding:16px 20px;border-top:1.5px solid var(--line);font-size:11.5px;color:var(--ink-soft);}
-  .sidebar-footer .who{display:block;margin-bottom:10px;word-break:break-all;}
+  .nav-item .num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:20px;height:20px;border-radius:6px;background:var(--field-bg);
+    color:var(--ink-soft);font-size:10px;font-weight:700;flex:0 0 auto;
+  }
+  .nav-item:hover{background:var(--field-bg);}
+  .nav-item.active{background:var(--primary-soft);color:var(--primary-dark);}
+  .nav-item.active .num{background:var(--primary);color:#fff;}
+  .sidebar-footer{padding:16px 20px;border-top:1px solid var(--border);font-size:12px;color:var(--ink-soft);}
+  .sidebar-footer .who{display:block;margin-bottom:10px;word-break:break-all;font-weight:600;color:var(--ink);}
   .sidebar-footer button{
-    width:100%;border:1.5px solid var(--line);background:transparent;padding:9px;
-    font-family:inherit;font-size:11px;letter-spacing:0.06em;color:var(--ink);cursor:pointer;text-transform:uppercase;
+    width:100%;border:1.5px solid var(--border);border-radius:9px;background:var(--card);padding:9px;
+    font-family:inherit;font-size:12px;font-weight:700;color:var(--ink-soft);cursor:pointer;
   }
-  .sidebar-footer button:hover{background:var(--ink);color:var(--paper);}
+  .sidebar-footer button:hover{border-color:var(--danger);color:var(--danger);}
 
   .main{flex:1;min-width:0;padding:32px 34px 90px;}
   .view{display:none;}
   .view.active{display:block;}
-  .view-header{margin-bottom:26px;padding-bottom:14px;border-bottom:2px solid var(--line);}
-  .view-header h2{font-family:'Pretendard';font-weight:900;font-size:23px;margin:0;}
-  .view-header .sub{font-size:12.5px;color:var(--ink-soft);margin-top:7px;}
+  .view-header{margin-bottom:26px;}
+  .view-header h2{font-family:'Pretendard';font-weight:800;font-size:22px;margin:0;color:var(--ink);}
+  .view-header .sub{font-size:13px;color:var(--ink-soft);margin-top:6px;}
 
-  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:30px;}
-  .stat-card{border:1.5px solid var(--line);padding:20px;background:var(--paper);}
-  .stat-card .num{font-family:'Pretendard';font-weight:900;font-size:34px;line-height:1;}
-  .stat-card .label{font-size:11px;color:var(--ink-soft);margin-top:9px;letter-spacing:0.06em;text-transform:uppercase;}
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-bottom:28px;}
+  .stat-card{background:var(--card);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow);}
+  .stat-card .num{font-family:'Pretendard';font-weight:800;font-size:32px;line-height:1;color:var(--ink);}
+  .stat-card .label{font-size:12px;color:var(--ink-soft);margin-top:9px;font-weight:600;}
+  .stat-card.c-primary .num{color:var(--primary);}
+  .stat-card.c-warn .num{color:var(--warn);}
+  .stat-card.c-success .num{color:var(--success);}
 
-  .subhead{font-family:'Pretendard';font-weight:900;font-size:14.5px;margin:0 0 14px;padding-bottom:8px;border-bottom:1.5px solid var(--line);}
-  .panel{margin-bottom:34px;}
-  .two-col{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;}
+  .subhead{font-family:'Pretendard';font-weight:800;font-size:14.5px;margin:0 0 14px;color:var(--ink);}
+  .panel{margin-bottom:24px;background:var(--card);border-radius:14px;padding:22px;box-shadow:var(--shadow);}
+  .two-col{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;}
   @media (max-width:980px){.two-col{grid-template-columns:1fr;}}
 
-  .breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:13.5px;}
-  .breakdown-count{font-weight:700;}
-  .activity-row{padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px;color:var(--ink-soft);}
+  .breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:9px;font-size:13.5px;margin-bottom:4px;background:var(--field-bg);}
+  .breakdown-count{font-weight:800;color:var(--primary-dark);background:var(--primary-soft);padding:2px 10px;border-radius:20px;font-size:12.5px;}
+  .activity-row{padding:10px 12px;border-radius:9px;font-size:12.5px;color:var(--ink-soft);background:var(--field-bg);margin-bottom:4px;}
   .activity-row b{color:var(--ink);font-weight:700;}
 
   .add-form{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;}
   .add-form div{flex:1;min-width:140px;}
-  .add-form label{
-    display:block;font-size:10px;color:var(--ink-soft);margin-bottom:6px;
-    letter-spacing:0.1em;text-transform:uppercase;font-weight:700;
-  }
+  .add-form label{display:block;font-size:11px;color:var(--ink-soft);margin-bottom:6px;font-weight:700;}
   .add-form input, .add-form select{
-    width:100%;padding:10px 11px;border:1.5px solid var(--line);
-    background:var(--fill);font-family:inherit;font-size:14px;outline:none;color:var(--ink);
+    width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;
+    background:var(--field-bg);font-family:inherit;font-size:14px;outline:none;color:var(--ink);
   }
-  .add-form input:focus, .add-form select:focus{border-color:var(--accent);background:#fff;}
+  .add-form input:focus, .add-form select:focus{border-color:var(--primary);background:#fff;}
   .add-form button{
-    padding:11px 20px;border:1.5px solid var(--line);background:transparent;color:var(--ink);
-    font-family:inherit;font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;
-    cursor:pointer;white-space:nowrap;
+    padding:11px 20px;border:none;border-radius:9px;background:var(--primary);color:#fff;
+    font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;
+    box-shadow:0 6px 14px rgba(59,111,214,0.25);
   }
-  .add-form button:hover{background:var(--ink);color:var(--paper);}
-  .new-type-row{margin-top:14px;}
-  .new-type-row label{
-    display:block;font-size:10px;color:var(--ink-soft);margin-bottom:6px;
-    letter-spacing:0.1em;text-transform:uppercase;font-weight:700;
-  }
+  .add-form button:hover{background:var(--primary-dark);}
+  .new-type-row{margin-top:14px;background:var(--primary-soft);padding:14px;border-radius:10px;}
+  .new-type-row label{display:block;font-size:11px;color:var(--primary-dark);margin-bottom:6px;font-weight:700;}
   .new-type-row input{
-    width:100%;padding:10px 11px;border:1.5px solid var(--line);
-    background:var(--fill);font-family:inherit;font-size:14px;outline:none;color:var(--ink);
+    width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;
+    background:#fff;font-family:inherit;font-size:14px;outline:none;color:var(--ink);
   }
 
-  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;}
   th{
-    text-align:left;padding:9px 8px;color:var(--ink-soft);font-size:10px;text-transform:uppercase;
-    letter-spacing:0.06em;border-bottom:2px solid var(--line);font-weight:700;
+    text-align:left;padding:11px 10px;color:var(--ink-soft);font-size:11px;
+    font-weight:700;background:var(--field-bg);
   }
-  td{padding:9px 8px;border-bottom:1px solid var(--line-soft);vertical-align:top;}
+  th:first-child{border-radius:8px 0 0 8px;}
+  th:last-child{border-radius:0 8px 8px 0;}
+  td{padding:11px 10px;vertical-align:top;border-bottom:1px solid var(--border);}
+  tr:last-child td{border-bottom:none;}
   .row-input{
-    width:100%;min-width:80px;padding:6px 2px;border:none;border-bottom:1px solid var(--line-soft);
-    background:transparent;font-family:inherit;font-size:12px;color:var(--ink);outline:none;
+    width:100%;min-width:80px;padding:7px 8px;border:1.5px solid var(--border);border-radius:7px;
+    background:#fff;font-family:inherit;font-size:12.5px;color:var(--ink);outline:none;
   }
-  .row-input:focus{border-bottom-color:var(--accent);}
+  .row-input:focus{border-color:var(--primary);}
   .mini-btn{
-    border:1px solid var(--line);background:transparent;color:var(--ink);
-    padding:6px 12px;font-family:inherit;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;
-    cursor:pointer;
+    border:none;background:var(--primary-soft);color:var(--primary-dark);border-radius:8px;
+    padding:7px 13px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;
   }
-  .mini-btn:hover{background:var(--ink);color:var(--paper);}
-  .mini-btn.saved{border-color:var(--success);color:var(--success);background:transparent;}
-  .mini-btn.full{border-color:var(--accent);color:var(--accent);}
+  .mini-btn:hover{background:var(--primary);color:#fff;}
+  .mini-btn.saved{background:var(--success-soft);color:var(--success);}
+  .mini-btn.full{background:var(--danger-soft);color:var(--danger);}
+  .mini-btn.full:hover{background:var(--danger);color:#fff;}
   .empty-row{text-align:center;padding:34px;color:var(--ink-soft);font-size:12.5px;}
 
   .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
   .filters select, .filters input{
-    padding:9px 10px;border:1.5px solid var(--line);background:var(--fill);
-    font-family:inherit;font-size:13.5px;color:var(--ink);outline:none;
+    padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;background:var(--field-bg);
+    font-family:inherit;font-size:13px;color:var(--ink);outline:none;
   }
 
   /* trainee-grouped applications */
-  .trainee-block{border:1.5px solid var(--line);margin-bottom:16px;background:var(--paper);}
-  .trainee-head{padding:16px;border-bottom:1.5px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;}
-  .t-edit{border:none;border-bottom:1px solid transparent;background:transparent;font-family:inherit;padding:3px 0;outline:none;color:var(--ink);}
-  .t-edit:hover, .t-edit:focus{border-bottom-color:var(--line);}
-  .t-edit.t-name{font-family:'Pretendard';font-weight:900;font-size:17px;width:180px;}
-  .t-meta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;}
+  .trainee-block{background:var(--card);border-radius:14px;margin-bottom:16px;box-shadow:var(--shadow);overflow:hidden;}
+  .trainee-head{padding:16px 18px;background:var(--primary-soft);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+  .t-edit{border:none;border-radius:6px;background:transparent;font-family:inherit;padding:3px 6px;outline:none;color:var(--ink);}
+  .t-edit:hover, .t-edit:focus{background:#fff;}
+  .t-edit.t-name{font-family:'Pretendard';font-weight:800;font-size:16.5px;width:180px;color:var(--primary-dark);}
+  .t-meta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
   .t-edit.t-meta{font-size:12.5px;color:var(--ink-soft);width:150px;}
   .rrn-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;height:fit-content;}
-  .rrn-value{font-family:monospace;font-size:12px;color:var(--ink-soft);}
-  .trainee-body{padding:16px;display:flex;gap:24px;flex-wrap:wrap;}
+  .rrn-value{font-family:monospace;font-size:12px;color:var(--ink-soft);background:#fff;padding:4px 8px;border-radius:6px;}
+  .trainee-body{padding:16px 18px;display:flex;gap:22px;flex-wrap:wrap;}
   .memo-col{flex:1;min-width:220px;}
-  .memo-col label, .apps-col label{
-    display:block;font-size:10px;color:var(--ink-soft);margin-bottom:7px;
-    letter-spacing:0.1em;text-transform:uppercase;font-weight:700;
-  }
+  .memo-col label, .apps-col label{display:block;font-size:11px;color:var(--ink-soft);margin-bottom:8px;font-weight:700;}
   .memo-input{
-    width:100%;min-height:70px;padding:11px 12px;border:1.5px solid var(--line-soft);
-    background:var(--fill);font-family:inherit;font-size:13.5px;color:var(--ink);outline:none;resize:vertical;
+    width:100%;min-height:70px;padding:11px 12px;border:1.5px solid var(--border);border-radius:10px;
+    background:var(--field-bg);font-family:inherit;font-size:13.5px;color:var(--ink);outline:none;resize:vertical;
   }
-  .memo-input:focus{border-color:var(--accent);background:#fff;}
+  .memo-input:focus{border-color:var(--primary);background:#fff;}
   .apps-col{flex:1.4;min-width:260px;}
-  .app-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line-soft);}
-  .app-row:last-child{border-bottom:none;}
+  .app-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;background:var(--field-bg);margin-bottom:6px;}
   .app-round{font-size:13.5px;font-weight:700;}
-  .app-round .type{font-size:10.5px;color:var(--ink-soft);font-weight:400;margin-left:6px;}
+  .app-round .type{font-size:10.5px;color:var(--ink-soft);font-weight:500;margin-left:6px;}
   .app-sub{font-size:10.5px;color:var(--ink-soft);margin-top:3px;}
-  .dup-badge{display:inline-block;margin-left:7px;padding:1px 7px;border:1px solid var(--line-soft);color:var(--ink-soft);font-size:9.5px;letter-spacing:0.04em;}
-  .cancelled-note{color:var(--accent);}
-  select.status-select{padding:6px 8px;border:1px solid var(--line);background:transparent;color:var(--ink);font-family:inherit;font-size:11.5px;outline:none;}
-  .status-대기{color:var(--warn);}
-  .status-승인{color:var(--success);}
-  .status-거절{color:var(--accent);}
-  .status-취소{color:var(--muted);}
-  .trainee-actions{padding:0 16px 16px;display:flex;justify-content:flex-end;}
+  .dup-badge{display:inline-block;margin-left:7px;padding:1px 8px;border-radius:10px;background:var(--warn-soft);color:var(--warn);font-size:9.5px;font-weight:700;}
+  .cancelled-note{color:var(--danger);}
+  select.status-select{
+    padding:6px 10px;border:none;border-radius:20px;font-family:inherit;font-size:11.5px;font-weight:700;outline:none;cursor:pointer;
+  }
+  .status-대기{background:var(--warn-soft);color:var(--warn);}
+  .status-승인{background:var(--success-soft);color:var(--success);}
+  .status-거절{background:var(--danger-soft);color:var(--danger);}
+  .status-취소{background:var(--field-bg);color:var(--muted);}
+  .trainee-actions{padding:0 18px 18px;display:flex;justify-content:flex-end;}
 
   @media (max-width:820px){
     #dashboard.show{flex-direction:column;}
-    .sidebar{width:100%;flex:none;height:auto;position:relative;flex-direction:row;overflow-x:auto;}
-    .sidebar-brand{border-bottom:none;border-right:1.5px solid var(--line);flex:0 0 auto;white-space:nowrap;}
-    .nav{display:flex;padding:0;}
-    .nav-item{white-space:nowrap;border-left:none;border-bottom:3px solid transparent;}
-    .nav-item.active{border-left:none;border-bottom-color:var(--ink);}
-    .sidebar-footer{border-top:none;border-left:1.5px solid var(--line);flex:0 0 auto;display:flex;flex-direction:column;justify-content:center;}
+    .sidebar{width:100%;flex:none;height:auto;position:relative;flex-direction:row;overflow-x:auto;box-shadow:0 1px 0 var(--border);}
+    .sidebar-brand{flex:0 0 auto;white-space:nowrap;}
+    .nav{display:flex;padding:10px;}
+    .nav-item{white-space:nowrap;margin-bottom:0;margin-right:6px;}
+    .sidebar-footer{border-top:none;flex:0 0 auto;display:flex;flex-direction:column;justify-content:center;min-width:150px;}
     .main{padding:22px 16px 70px;}
     th,td{white-space:nowrap;}
   }
@@ -224,7 +233,7 @@
 
 <div id="loginScreen">
   <div class="login-card">
-    <div class="kicker">◆ Admin ◆</div>
+    <div class="kicker">Admin</div>
     <h1>관리자 로그인</h1>
     <div class="sub">재직자 교육 신청 관리</div>
     <label>이메일</label>
@@ -244,10 +253,10 @@
       <h1>재직자 교육<br>신청 관리</h1>
     </div>
     <nav class="nav">
-      <button class="nav-item active" data-view="overview"><span class="num">01</span>개요</button>
-      <button class="nav-item" data-view="applications"><span class="num">02</span>신청 현황</button>
-      <button class="nav-item" data-view="courses"><span class="num">03</span>과정 관리</button>
-      <button class="nav-item" data-view="log"><span class="num">04</span>활동 로그</button>
+      <button class="nav-item active" data-view="overview"><span class="num">1</span>개요</button>
+      <button class="nav-item" data-view="applications"><span class="num">2</span>신청 현황</button>
+      <button class="nav-item" data-view="courses"><span class="num">3</span>과정 관리</button>
+      <button class="nav-item" data-view="log"><span class="num">4</span>활동 로그</button>
     </nav>
     <div class="sidebar-footer">
       <span class="who" id="whoAmI"></span>
@@ -262,10 +271,10 @@
         <div class="sub">전체 신청 현황을 한눈에 확인하세요</div>
       </div>
       <div class="stat-grid">
-        <div class="stat-card"><div class="num" id="statTrainees">–</div><div class="label">전체 신청자</div></div>
-        <div class="stat-card"><div class="num" id="statApps">–</div><div class="label">전체 신청 건수</div></div>
-        <div class="stat-card"><div class="num" id="statPending">–</div><div class="label">대기중</div></div>
-        <div class="stat-card"><div class="num" id="statApproved">–</div><div class="label">승인됨</div></div>
+        <div class="stat-card c-primary"><div class="num" id="statTrainees">–</div><div class="label">전체 신청자</div></div>
+        <div class="stat-card c-primary"><div class="num" id="statApps">–</div><div class="label">전체 신청 건수</div></div>
+        <div class="stat-card c-warn"><div class="num" id="statPending">–</div><div class="label">대기중</div></div>
+        <div class="stat-card c-success"><div class="num" id="statApproved">–</div><div class="label">승인됨</div></div>
       </div>
       <div class="two-col">
         <div class="panel">
@@ -349,11 +358,13 @@
         <h2>활동 로그</h2>
         <div class="sub">신청자 정보 및 신청 현황 변경 이력 (관리자만 조회 가능)</div>
       </div>
-      <div style="overflow-x:auto;">
-        <table>
-          <thead><tr><th>시간</th><th>변경자</th><th>대상</th><th>동작</th></tr></thead>
-          <tbody id="auditRows"><tr><td colspan="4" class="empty-row">탭을 열면 불러옵니다</td></tr></tbody>
-        </table>
+      <div class="panel">
+        <div style="overflow-x:auto;">
+          <table>
+            <thead><tr><th>시간</th><th>변경자</th><th>대상</th><th>동작</th></tr></thead>
+            <tbody id="auditRows"><tr><td colspan="4" class="empty-row">탭을 열면 불러옵니다</td></tr></tbody>
+          </table>
+        </div>
       </div>
     </section>
   </main>
@@ -574,7 +585,7 @@ async function loadApplications(){
     .select('id, status, applied_at, cancelled_at, trainee_id, trainees(id,name,phone,email,company_name,memo), course_rounds(id,label,course_types(name))')
     .order('applied_at', { ascending: false });
   if (error){
-    document.getElementById('traineeGroups').innerHTML = `<div class="empty-row">불러오기 실패: ${error.message}</div>`;
+    document.getElementById('traineeGroups').innerHTML = `<tr><td colspan="10" class="empty-row">불러오기 실패: ${error.message}</td></tr>`;
     return;
   }
   allApps = data || [];
@@ -587,103 +598,92 @@ function renderTraineeGroups(){
   const roundFilter = document.getElementById('filterRound').value;
   const search = document.getElementById('filterSearch').value.trim().toLowerCase();
 
-  const groups = new Map();
+  // 중복 신청(같은 사람+같은 회차) 배지 계산용
+  const byTraineeRound = {};
   allApps.forEach(a => {
-    const tId = a.trainee_id;
-    if (!groups.has(tId)) groups.set(tId, { trainee: a.trainees, apps: [] });
-    groups.get(tId).apps.push(a);
+    const key = a.trainee_id + '|' + (a.course_rounds?.id || 'unknown');
+    byTraineeRound[key] = (byTraineeRound[key] || 0) + 1;
   });
+  const seenCount = {};
 
-  let entries = Array.from(groups.values()).filter(g => {
+  let rows = allApps.filter(a => {
+    const t = a.trainees;
     if (search){
-      const hay = `${g.trainee?.name || ''} ${g.trainee?.phone || ''}`.toLowerCase();
+      const hay = `${t?.name || ''} ${t?.phone || ''}`.toLowerCase();
       if (!hay.includes(search)) return false;
     }
-    if (statusFilter && !g.apps.some(a => a.status === statusFilter)) return false;
-    if (roundFilter && !g.apps.some(a => a.course_rounds?.id === roundFilter)) return false;
+    if (statusFilter && a.status !== statusFilter) return false;
+    if (roundFilter && a.course_rounds?.id !== roundFilter) return false;
     return true;
   });
 
-  const container = document.getElementById('traineeGroups');
-  if (entries.length === 0){
-    container.innerHTML = '<div class="empty-row">해당하는 신청 내역이 없습니다</div>';
+  const tbody = document.getElementById('traineeGroups');
+  if (rows.length === 0){
+    tbody.innerHTML = '<tr><td colspan="10" class="empty-row">해당하는 신청 내역이 없습니다</td></tr>';
     return;
   }
 
-  container.innerHTML = entries.map(g => `
-    <div class="trainee-block" data-trainee-id="${g.trainee?.id}">
-      <div class="trainee-head">
-        <div>
-          <input class="t-edit t-name" data-field="name" value="${esc(g.trainee?.name)}">
-          <div class="t-meta-row">
-            <input class="t-edit t-meta" data-field="phone" value="${esc(g.trainee?.phone)}" placeholder="연락처">
-            <input class="t-edit t-meta" data-field="email" value="${esc(g.trainee?.email)}" placeholder="이메일">
-            <input class="t-edit t-meta" data-field="company_name" value="${esc(g.trainee?.company_name)}" placeholder="회사명">
-          </div>
-        </div>
-        <div class="rrn-row">
-          <span class="rrn-value" data-trainee-id="${g.trainee?.id}">●●●●●●-●●●●●●●</span>
-          <button class="mini-btn rrn-btn" data-trainee-id="${g.trainee?.id}" data-mode="masked">확인</button>
-          <button class="mini-btn rrn-btn full" data-trainee-id="${g.trainee?.id}" data-mode="full">전체보기</button>
-        </div>
-      </div>
-      <div class="trainee-body">
-        <div class="memo-col">
-          <label>메모 (이 사람 전체 공통)</label>
-          <textarea class="memo-input" data-trainee-id="${g.trainee?.id}" placeholder="메모 입력...">${g.trainee?.memo || ''}</textarea>
-        </div>
-        <div class="apps-col">
-          <label>신청 과정 (${g.apps.length}건)</label>
-          ${(() => {
-            const sorted = [...g.apps].sort((x, y) => new Date(x.applied_at) - new Date(y.applied_at));
-            const roundCounts = {};
-            const totalByRound = {};
-            sorted.forEach(a => { const rid = a.course_rounds?.id || 'unknown'; totalByRound[rid] = (totalByRound[rid] || 0) + 1; });
-            return sorted.map(a => {
-              const rid = a.course_rounds?.id || 'unknown';
-              roundCounts[rid] = (roundCounts[rid] || 0) + 1;
-              const isDup = totalByRound[rid] > 1;
-              const dateStr = new Date(a.applied_at).toLocaleDateString('ko-KR');
-              return `
-            <div class="app-row" data-app-id="${a.id}">
-              <div>
-                <div class="app-round">${a.course_rounds?.label || '-'}<span class="type">${a.course_rounds?.course_types?.name || ''}</span>${isDup ? `<span class="dup-badge">${roundCounts[rid]}번째 신청</span>` : ''}</div>
-                <div class="app-sub">신청일 ${dateStr}${a.status === '취소' && a.cancelled_at ? ` · <span class="cancelled-note">취소일 ${new Date(a.cancelled_at).toLocaleDateString('ko-KR')}</span>` : ''}</div>
-              </div>
-              <select class="status-select status-${a.status}" data-app-id="${a.id}">
-                ${['대기','승인','거절','취소'].map(s => `<option value="${s}" ${s===a.status?'selected':''}>${s}</option>`).join('')}
-              </select>
-            </div>`;
-            }).join('');
-          })()}
-        </div>
-      </div>
-      <div class="trainee-actions">
-        <button class="mini-btn trainee-save" data-trainee-id="${g.trainee?.id}">신청자 정보 저장</button>
-      </div>
-    </div>
-  `).join('');
+  tbody.innerHTML = rows.map((a, idx) => {
+    const t = a.trainees || {};
+    const key = a.trainee_id + '|' + (a.course_rounds?.id || 'unknown');
+    seenCount[key] = (seenCount[key] || 0) + 1;
+    const isDup = byTraineeRound[key] > 1;
+    const dateStr = new Date(a.applied_at).toLocaleDateString('ko-KR');
+    return `
+    <tr data-app-id="${a.id}" data-trainee-id="${t.id}">
+      <td>${idx + 1}</td>
+      <td><input class="row-input" data-field="name" value="${esc(t.name)}" style="min-width:70px;font-weight:700;"></td>
+      <td><input class="row-input" data-field="phone" value="${esc(t.phone)}" style="min-width:110px;"></td>
+      <td><input class="row-input" data-field="company_name" value="${esc(t.company_name)}" style="min-width:90px;"></td>
+      <td><input class="row-input" data-field="email" value="${esc(t.email)}" style="min-width:150px;"></td>
+      <td>
+        <span class="rrn-value" data-trainee-id="${t.id}">●●●●●●-●●●●●●●</span><br>
+        <button class="mini-btn rrn-btn" data-trainee-id="${t.id}" data-mode="masked">확인</button>
+        <button class="mini-btn rrn-btn full" data-trainee-id="${t.id}" data-mode="full">전체</button>
+      </td>
+      <td style="min-width:170px;">
+        <div class="app-round">${a.course_rounds?.label || '-'}<span class="type">${a.course_rounds?.course_types?.name || ''}</span>${isDup ? `<span class="dup-badge">${seenCount[key]}번째</span>` : ''}</div>
+        <div class="app-sub">신청 ${dateStr}${a.status === '취소' && a.cancelled_at ? ` · <span class="cancelled-note">취소 ${new Date(a.cancelled_at).toLocaleDateString('ko-KR')}</span>` : ''}</div>
+      </td>
+      <td>
+        <select class="status-select status-${a.status}" data-app-id="${a.id}">
+          ${['대기','승인','거절','취소'].map(s => `<option value="${s}" ${s===a.status?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </td>
+      <td><textarea class="memo-input" data-trainee-id="${t.id}" placeholder="메모..." style="min-height:44px;min-width:150px;">${t.memo || ''}</textarea></td>
+      <td><button class="mini-btn row-save" data-trainee-id="${t.id}">저장</button></td>
+    </tr>`;
+  }).join('');
 
-  container.querySelectorAll('.trainee-save').forEach(btn => {
+  tbody.querySelectorAll('.row-save').forEach(btn => {
     btn.addEventListener('click', async () => {
       const tId = btn.dataset.traineeId;
-      const block = container.querySelector(`.trainee-block[data-trainee-id="${tId}"]`);
-      const name = block.querySelector('[data-field="name"]').value.trim();
-      const phone = block.querySelector('[data-field="phone"]').value.trim();
-      const email = block.querySelector('[data-field="email"]').value.trim();
-      const company_name = block.querySelector('[data-field="company_name"]').value.trim();
-      const memo = block.querySelector('.memo-input').value;
-      if (!name || !phone){ btn.textContent = '이름/연락처 필요'; setTimeout(()=>{btn.textContent='신청자 정보 저장';},1500); return; }
+      const row = btn.closest('tr');
+      const name = row.querySelector('[data-field="name"]').value.trim();
+      const phone = row.querySelector('[data-field="phone"]').value.trim();
+      const email = row.querySelector('[data-field="email"]').value.trim();
+      const company_name = row.querySelector('[data-field="company_name"]').value.trim();
+      const memo = row.querySelector('.memo-input').value;
+      if (!name || !phone){ btn.textContent = '이름/연락처 필요'; setTimeout(()=>{btn.textContent='저장';},1500); return; }
       btn.textContent = '저장 중';
       const { error } = await sb.from('trainees').update({ name, phone, email, company_name, memo }).eq('id', tId);
       if (!error){
         btn.textContent = '저장됨'; btn.classList.add('saved');
-        setTimeout(() => { btn.textContent = '신청자 정보 저장'; btn.classList.remove('saved'); }, 1400);
+        // 같은 사람의 다른 행(다른 신청 과정)도 즉시 동기화
+        tbody.querySelectorAll(`tr[data-trainee-id="${tId}"]`).forEach(r => {
+          if (r === row) return;
+          r.querySelector('[data-field="name"]').value = name;
+          r.querySelector('[data-field="phone"]').value = phone;
+          r.querySelector('[data-field="email"]').value = email;
+          r.querySelector('[data-field="company_name"]').value = company_name;
+          r.querySelector('.memo-input').value = memo;
+        });
+        setTimeout(() => { btn.textContent = '저장'; btn.classList.remove('saved'); }, 1400);
       } else { btn.textContent = '실패'; }
     });
   });
 
-  container.querySelectorAll('.status-select').forEach(sel => {
+  tbody.querySelectorAll('.status-select').forEach(sel => {
     sel.addEventListener('change', async () => {
       const appId = sel.dataset.appId;
       const status = sel.value;
@@ -692,18 +692,17 @@ function renderTraineeGroups(){
     });
   });
 
-  container.querySelectorAll('.rrn-btn').forEach(btn => {
+  tbody.querySelectorAll('.rrn-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       const traineeId = btn.dataset.traineeId;
       const mode = btn.dataset.mode;
-      const valueEl = container.querySelector(`.rrn-value[data-trainee-id="${traineeId}"]`);
       if (mode === 'full'){
         if (!confirm('주민등록번호 전체를 조회합니다. 이 열람 기록은 감사 로그에 남습니다. 계속할까요?')) return;
       }
       const fn = mode === 'full' ? 'get_trainee_rrn_full' : 'get_trainee_rrn_masked';
       const { data, error } = await sb.rpc(fn, { p_trainee_id: traineeId });
-      if (!error && data){ valueEl.textContent = data; }
-      else { valueEl.textContent = '조회 실패'; }
+      const text = (!error && data) ? data : '조회 실패';
+      tbody.querySelectorAll(`.rrn-value[data-trainee-id="${traineeId}"]`).forEach(el => { el.textContent = text; });
     });
   });
 }
