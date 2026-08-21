@@ -20,6 +20,7 @@
     --ink-soft:#44433D;
     --line:#141414;
     --line-soft:#C7C3B8;
+    --fill:#F7F5EF;
     --accent:#9B2E2E;
     --success:#33513C;
   }
@@ -48,8 +49,8 @@
   }
   h1{
     font-family:'Pretendard', sans-serif;
-    font-size:34px;
     font-weight:900;
+    font-size:34px;
     margin:0 0 10px;
     letter-spacing:-0.01em;
     line-height:1.2;
@@ -91,7 +92,7 @@
     width:100%;
     padding:13px 14px;
     border:1.5px solid var(--line);
-    background:#F7F5EF;
+    background:var(--fill);
     font-family:inherit;
     font-size:16.5px;
     color:var(--ink);
@@ -104,7 +105,8 @@
 
   .section-label{
     font-family:'Pretendard', sans-serif;
-    font-size:14px;font-weight:900;
+    font-weight:900;
+    font-size:14px;
     margin:0 0 14px;
     padding-bottom:8px;
     border-bottom:2px solid var(--line);
@@ -123,7 +125,7 @@
   .round-date{font-size:12px;color:var(--ink-soft);margin-top:3px;}
   .empty-rounds{padding:16px 0;color:var(--ink-soft);font-size:12.5px;}
 
-  .consent-block{border-top:1px solid var(--line-soft);padding-top:16px;margin-top:16px;}
+  .consent-block{border:1.5px solid var(--line);padding:18px 20px;margin-bottom:16px;background:var(--paper);transition:background .2s, border-color .2s;}
   .consent-block .title{font-weight:700;font-size:13.5px;margin-bottom:8px;}
   .consent-block ul{margin:0 0 12px;padding-left:18px;font-size:13px;color:var(--ink-soft);line-height:1.75;}
   .consent-row{
@@ -131,6 +133,8 @@
     font-size:13.5px;line-height:1.6;color:var(--ink);
   }
   .consent-row input{width:15px;height:15px;margin-top:2px;accent-color:var(--ink);flex:0 0 auto;}
+  .consent-block.done{background:var(--fill);border-color:var(--success);}
+  .consent-block.done .title{color:var(--success);}
 
   button.submit{
     width:100%;margin-top:32px;padding:16px;
@@ -145,8 +149,8 @@
   .msg.error{color:var(--accent);}
 
   .success{text-align:center;padding:60px 0;border-top:3px solid var(--line);}
-  .success .mark{font-family:'Pretendard', sans-serif;font-size:13px;letter-spacing:0.3em;color:var(--ink-soft);margin-bottom:16px;}
-  .success h2{font-family:'Pretendard', sans-serif;font-size:26px;margin:0 0 14px;}
+  .success .mark{font-size:13px;letter-spacing:0.3em;color:var(--ink-soft);margin-bottom:16px;}
+  .success h2{font-family:'Pretendard';font-weight:900;font-size:26px;margin:0 0 14px;}
   .success p{font-size:13.5px;color:var(--ink-soft);line-height:1.8;margin:0;}
 </style>
 </head>
@@ -173,6 +177,23 @@
       <label for="website">웹사이트 (입력하지 마세요)</label>
       <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
     </div>
+
+    <section class="block">
+      <div class="section-label">개인정보 수집·이용 동의</div>
+      <div class="consent-block" id="privacyConsentBlock">
+        <div class="title">개인정보 수집·이용 동의</div>
+        <ul>
+          <li>수집항목: 성명, 연락처, 이메일</li>
+          <li>수집목적: 교육 신청 접수, 수강자격 확인, 교육 안내</li>
+          <li>보유기간: 사업 종료 후 2년간 보관 후 파기</li>
+        </ul>
+        <label class="consent-row">
+          <input type="checkbox" id="privacyCheck">
+          <span>위 개인정보 수집·이용에 동의합니다. (필수)</span>
+        </label>
+      </div>
+    </section>
+
     <section class="block">
       <div class="section-label">신청자 정보</div>
       <label for="name">이름</label>
@@ -185,7 +206,7 @@
       <input type="email" id="email" placeholder="example@email.com">
 
       <label for="company">회사명</label>
-      <input type="text" id="company" placeholder="예: 전주엠비씨">
+      <input type="text" id="company" placeholder="예: 전주MBC">
 
       <label class="consent-row" style="margin-top:18px;">
         <input type="checkbox" id="employedCheck">
@@ -195,40 +216,24 @@
       <label for="rrn">주민등록번호</label>
       <input type="text" id="rrn" placeholder="900101-1234567" maxlength="14" autocomplete="off">
       <div class="hint">HRD-Net 등록 및 고용보험 가입여부 확인 목적으로만 사용되며, 암호화되어 저장됩니다.</div>
+
+      <div class="consent-block" id="rrnConsentBlock" style="margin-top:16px;">
+        <div class="title">고유식별정보(주민등록번호) 처리 동의</div>
+        <ul id="rrnConsentDetails">
+          <li>수집목적: 수강자격 확인, 고용보험 가입여부 확인, HRD-Net 등록 가능여부 확인</li>
+          <li>보유기간: 사업 종료 후 2년간 보관 후 파기</li>
+        </ul>
+        <label class="consent-row">
+          <input type="checkbox" id="rrnConsentCheck">
+          <span>위 고유식별정보 처리에 동의합니다. (필수)</span>
+        </label>
+      </div>
     </section>
 
     <section class="block">
       <div class="section-label">신청 과정 · 회차 선택</div>
       <div id="courseGroups">
         <div class="empty-rounds">과정 목록을 불러오는 중...</div>
-      </div>
-    </section>
-
-    <section class="block">
-      <div class="consent-block">
-        <div class="title">개인정보 수집·이용 동의</div>
-        <ul>
-          <li>수집항목: 성명, 연락처, 이메일</li>
-          <li>수집목적: 교육 신청 접수, 수강자격 확인, 교육 안내</li>
-          <li>보유기간: 사업 종료 후 2년간 보관 후 파기</li>
-        </ul>
-        <label class="consent-row">
-          <input type="checkbox" id="privacyCheck">
-          <span>위 개인정보 수집·이용에 동의합니다. (필수)</span>
-        </label>
-      </div>
-
-      <div class="consent-block">
-        <div class="title">고유식별정보(주민등록번호) 처리 동의</div>
-        <ul>
-          <li>수집목적: 수강자격 확인, 고용보험 가입여부 확인, HRD-Net 등록 가능여부 확인</li>
-          <li>보유기간: 사업 종료 후 2년간 보관 후 파기</li>
-        </ul>
-      <div class="consent-block">
-        <label class="consent-row">
-          <input type="checkbox" id="rrnConsentCheck">
-          <span>위 고유식별정보 처리에 동의합니다. (필수)</span>
-        </label>
       </div>
     </section>
 
@@ -252,6 +257,75 @@ const groupsEl = document.getElementById('courseGroups');
 const msgEl = document.getElementById('msg');
 const submitBtn = document.getElementById('submitBtn');
 const selected = new Set();
+const DRAFT_KEY = 'khp_apply_draft_v1';
+
+// ---------- 동의 체크박스 접기/펼치기 ----------
+function wireCollapse(blockId, checkboxId, detailsSelector){
+  const block = document.getElementById(blockId);
+  const checkbox = document.getElementById(checkboxId);
+  const apply = () => {
+    const details = block.querySelectorAll(detailsSelector);
+    if (checkbox.checked){
+      block.classList.add('done');
+      details.forEach(el => el.style.display = 'none');
+    } else {
+      block.classList.remove('done');
+      details.forEach(el => el.style.display = '');
+    }
+  };
+  checkbox.addEventListener('change', apply);
+  return apply;
+}
+const applyRrnCollapse = wireCollapse('rrnConsentBlock', 'rrnConsentCheck', '#rrnConsentDetails');
+
+// ---------- 임시저장 (새로고침 대비) ----------
+function saveDraft(){
+  const draft = {
+    name: document.getElementById('name').value,
+    phone: document.getElementById('phone').value,
+    email: document.getElementById('email').value,
+    company: document.getElementById('company').value,
+    rrn: document.getElementById('rrn').value,
+    employed: document.getElementById('employedCheck').checked,
+    privacy: document.getElementById('privacyCheck').checked,
+    rrnConsent: document.getElementById('rrnConsentCheck').checked,
+    selectedRounds: Array.from(selected)
+  };
+  try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draft)); } catch(e){}
+}
+function loadDraft(){
+  try {
+    const raw = sessionStorage.getItem(DRAFT_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch(e){ return null; }
+}
+function clearDraft(){
+  try { sessionStorage.removeItem(DRAFT_KEY); } catch(e){}
+}
+
+const draft = loadDraft();
+if (draft){
+  document.getElementById('name').value = draft.name || '';
+  document.getElementById('phone').value = draft.phone || '';
+  document.getElementById('email').value = draft.email || '';
+  document.getElementById('company').value = draft.company || '';
+  document.getElementById('rrn').value = draft.rrn || '';
+  document.getElementById('employedCheck').checked = !!draft.employed;
+  document.getElementById('privacyCheck').checked = !!draft.privacy;
+  document.getElementById('rrnConsentCheck').checked = !!draft.rrnConsent;
+  applyRrnCollapse();
+}
+
+document.getElementById('formCard').addEventListener('input', saveDraft);
+document.getElementById('formCard').addEventListener('change', saveDraft);
+
+document.getElementById('phone').addEventListener('input', (e) => {
+  let digits = e.target.value.replace(/\D/g, '').slice(0, 11);
+  let formatted = digits;
+  if (digits.length > 7) formatted = digits.slice(0,3) + '-' + digits.slice(3,7) + '-' + digits.slice(7);
+  else if (digits.length > 3) formatted = digits.slice(0,3) + '-' + digits.slice(3);
+  e.target.value = formatted;
+});
 
 document.getElementById('rrn').addEventListener('input', (e) => {
   let digits = e.target.value.replace(/\D/g, '').slice(0, 13);
@@ -293,6 +367,7 @@ async function loadCourses(){
       checkbox.addEventListener('change', () => {
         if (checkbox.checked){ selected.add(r.id); }
         else { selected.delete(r.id); }
+        saveDraft();
       });
       group.appendChild(item);
     });
@@ -300,6 +375,13 @@ async function loadCourses(){
   });
 
   if (!groupsEl.innerHTML) groupsEl.innerHTML = '<div class="empty-rounds">현재 신청 가능한 회차가 없습니다</div>';
+
+  if (draft && draft.selectedRounds){
+    draft.selectedRounds.forEach(id => {
+      const cb = groupsEl.querySelector(`input[value="${id}"]`);
+      if (cb){ cb.checked = true; selected.add(id); }
+    });
+  }
 }
 loadCourses();
 
@@ -315,15 +397,15 @@ submitBtn.addEventListener('click', async () => {
   const privacyConsent = document.getElementById('privacyCheck').checked;
   const rrnConsent = document.getElementById('rrnConsentCheck').checked;
 
+  if (!privacyConsent){ msgEl.textContent = '개인정보 수집·이용에 동의해주세요.'; return; }
   if (!name){ msgEl.textContent = '이름을 입력해주세요.'; return; }
   if (!phone){ msgEl.textContent = '연락처를 입력해주세요.'; return; }
   if (!email){ msgEl.textContent = '이메일을 입력해주세요.'; return; }
   if (!company){ msgEl.textContent = '회사명을 입력해주세요.'; return; }
-  if (rrn.length !== 13){ msgEl.textContent = '주민등록번호 13자리를 정확히 입력해주세요.'; return; }
-  if (selected.size === 0){ msgEl.textContent = '신청할 회차를 1개 이상 선택해주세요.'; return; }
-  if (!privacyConsent){ msgEl.textContent = '개인정보 수집·이용에 동의해주세요.'; return; }
-  if (!rrnConsent){ msgEl.textContent = '고유식별정보(주민등록번호) 처리에 동의해주세요.'; return; }
   if (!employedConfirmed){ msgEl.textContent = '재직자 대상 과정임을 확인해주세요.'; return; }
+  if (rrn.length !== 13){ msgEl.textContent = '주민등록번호 13자리를 정확히 입력해주세요.'; return; }
+  if (!rrnConsent){ msgEl.textContent = '고유식별정보(주민등록번호) 처리에 동의해주세요.'; return; }
+  if (selected.size === 0){ msgEl.textContent = '신청할 회차를 1개 이상 선택해주세요.'; return; }
 
   submitBtn.disabled = true;
   submitBtn.textContent = '처리 중...';
@@ -356,6 +438,7 @@ submitBtn.addEventListener('click', async () => {
     return;
   }
 
+  clearDraft();
   document.getElementById('formCard').style.display = 'none';
   document.getElementById('successCard').style.display = 'block';
 });
