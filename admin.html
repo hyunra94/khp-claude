@@ -21,6 +21,7 @@
     --muted:#8A867D;
     --line:#141414;
     --line-soft:#C7C3B8;
+    --fill:#F7F5EF;
     --accent:#9B2E2E;
     --success:#33513C;
     --warn:#7A5C1E;
@@ -43,7 +44,7 @@
     border:1.5px solid var(--line);
   }
   .login-card .kicker{text-align:center;font-size:11px;letter-spacing:0.3em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:14px;}
-  .login-card h1{font-family:'Pretendard', sans-serif;font-size:24px;margin:0 0 8px;text-align:center;}
+  .login-card h1{font-family:'Pretendard';font-weight:900;font-size:24px;margin:0 0 8px;text-align:center;}
   .login-card .sub{font-size:13.5px;color:var(--ink-soft);text-align:center;margin-bottom:28px;border-top:1px solid var(--line-soft);padding-top:12px;}
   .login-card label{
     display:block;font-size:10.5px;font-weight:700;letter-spacing:0.12em;
@@ -51,7 +52,7 @@
   }
   .login-card input{
     width:100%;padding:13px 14px;border:1.5px solid var(--line);
-    background:#F7F5EF;font-family:inherit;font-size:15.5px;outline:none;color:var(--ink);
+    background:var(--fill);font-family:inherit;font-size:15.5px;outline:none;color:var(--ink);
   }
   .login-card input:focus{border-color:var(--accent);background:#fff;}
   .login-card button{
@@ -63,26 +64,58 @@
   .login-toggle{text-align:center;margin-top:16px;font-size:12px;color:var(--ink-soft);text-decoration:underline;cursor:pointer;}
   .login-msg{margin-top:12px;font-size:12px;color:var(--accent);text-align:center;min-height:16px;}
 
-  /* ---------- dashboard ---------- */
-  #dashboard{display:none;}
-  .header{border-bottom:3px solid var(--line);padding:26px 22px 18px;}
-  .header-inner{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;}
-  .header-inner .kicker{font-size:10.5px;letter-spacing:0.28em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:6px;}
-  .header-inner h1{font-family:'Pretendard', sans-serif;font-size:24px;margin:0;}
-  .header-inner .who{font-size:11.5px;color:var(--ink-soft);}
-  .logout-btn{
-    border:1.5px solid var(--line);background:transparent;padding:9px 16px;
-    font-family:inherit;font-size:11px;letter-spacing:0.06em;color:var(--ink);
-    cursor:pointer;text-transform:uppercase;
+  /* ---------- dashboard shell ---------- */
+  #dashboard{display:none;min-height:100vh;}
+  #dashboard.show{display:flex;}
+  .sidebar{
+    width:224px;flex:0 0 224px;
+    border-right:1.5px solid var(--line);
+    display:flex;flex-direction:column;
+    position:sticky;top:0;height:100vh;
+    background:var(--paper);
   }
-  .logout-btn:hover{background:var(--ink);color:var(--paper);}
+  .sidebar-brand{padding:24px 20px;border-bottom:1.5px solid var(--line);}
+  .sidebar-brand .kicker{font-size:10px;letter-spacing:0.22em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:7px;}
+  .sidebar-brand h1{font-family:'Pretendard';font-weight:900;font-size:17px;margin:0;line-height:1.35;}
+  .nav{flex:1;padding:14px 0;overflow-y:auto;}
+  .nav-item{
+    display:block;width:100%;text-align:left;
+    padding:12px 20px;border:none;background:transparent;
+    font-family:inherit;font-size:13.5px;color:var(--ink);
+    cursor:pointer;border-left:3px solid transparent;
+  }
+  .nav-item .num{color:var(--ink-soft);font-size:10.5px;margin-right:9px;letter-spacing:0.03em;}
+  .nav-item:hover{background:var(--fill);}
+  .nav-item.active{border-left-color:var(--ink);background:var(--fill);font-weight:700;}
+  .sidebar-footer{padding:16px 20px;border-top:1.5px solid var(--line);font-size:11.5px;color:var(--ink-soft);}
+  .sidebar-footer .who{display:block;margin-bottom:10px;word-break:break-all;}
+  .sidebar-footer button{
+    width:100%;border:1.5px solid var(--line);background:transparent;padding:9px;
+    font-family:inherit;font-size:11px;letter-spacing:0.06em;color:var(--ink);cursor:pointer;text-transform:uppercase;
+  }
+  .sidebar-footer button:hover{background:var(--ink);color:var(--paper);}
 
-  .content{padding:30px 22px 90px;}
-  .panel{max-width:1180px;margin:0 auto 24px;}
-  .panel h2{
-    font-family:'Pretendard', sans-serif;font-size:16px;margin:0 0 18px;
-    padding-bottom:8px;border-bottom:2px solid var(--line);
-  }
+  .main{flex:1;min-width:0;padding:32px 34px 90px;}
+  .view{display:none;}
+  .view.active{display:block;}
+  .view-header{margin-bottom:26px;padding-bottom:14px;border-bottom:2px solid var(--line);}
+  .view-header h2{font-family:'Pretendard';font-weight:900;font-size:23px;margin:0;}
+  .view-header .sub{font-size:12.5px;color:var(--ink-soft);margin-top:7px;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:30px;}
+  .stat-card{border:1.5px solid var(--line);padding:20px;background:var(--paper);}
+  .stat-card .num{font-family:'Pretendard';font-weight:900;font-size:34px;line-height:1;}
+  .stat-card .label{font-size:11px;color:var(--ink-soft);margin-top:9px;letter-spacing:0.06em;text-transform:uppercase;}
+
+  .subhead{font-family:'Pretendard';font-weight:900;font-size:14.5px;margin:0 0 14px;padding-bottom:8px;border-bottom:1.5px solid var(--line);}
+  .panel{margin-bottom:34px;}
+  .two-col{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;}
+  @media (max-width:980px){.two-col{grid-template-columns:1fr;}}
+
+  .breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:13.5px;}
+  .breakdown-count{font-weight:700;}
+  .activity-row{padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px;color:var(--ink-soft);}
+  .activity-row b{color:var(--ink);font-weight:700;}
 
   .add-form{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;}
   .add-form div{flex:1;min-width:140px;}
@@ -92,7 +125,7 @@
   }
   .add-form input, .add-form select{
     width:100%;padding:10px 11px;border:1.5px solid var(--line);
-    background:#F7F5EF;font-family:inherit;font-size:14px;outline:none;color:var(--ink);
+    background:var(--fill);font-family:inherit;font-size:14px;outline:none;color:var(--ink);
   }
   .add-form input:focus, .add-form select:focus{border-color:var(--accent);background:#fff;}
   .add-form button{
@@ -108,7 +141,7 @@
   }
   .new-type-row input{
     width:100%;padding:10px 11px;border:1.5px solid var(--line);
-    background:#F7F5EF;font-family:inherit;font-size:14px;outline:none;color:var(--ink);
+    background:var(--fill);font-family:inherit;font-size:14px;outline:none;color:var(--ink);
   }
 
   table{width:100%;border-collapse:collapse;font-size:13.5px;}
@@ -130,64 +163,59 @@
   .mini-btn:hover{background:var(--ink);color:var(--paper);}
   .mini-btn.saved{border-color:var(--success);color:var(--success);background:transparent;}
   .mini-btn.full{border-color:var(--accent);color:var(--accent);}
-  .empty-row{text-align:center;padding:34px;color:var(--ink-soft);font-size:13.5px;}
+  .empty-row{text-align:center;padding:34px;color:var(--ink-soft);font-size:12.5px;}
 
   .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
   .filters select, .filters input{
-    padding:9px 10px;border:1.5px solid var(--line);background:#F7F5EF;
+    padding:9px 10px;border:1.5px solid var(--line);background:var(--fill);
     font-family:inherit;font-size:13.5px;color:var(--ink);outline:none;
   }
 
   /* trainee-grouped applications */
   .trainee-block{border:1.5px solid var(--line);margin-bottom:16px;background:var(--paper);}
-  .trainee-head{
-    padding:14px 16px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
-    border-bottom:1.5px solid var(--line);
-  }
-  .trainee-id{font-family:'Pretendard', sans-serif;font-weight:900;font-size:16px;}
-  .trainee-meta{font-size:12.5px;color:var(--ink-soft);margin-top:3px;}
-  .rrn-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .trainee-head{padding:16px;border-bottom:1.5px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+  .t-edit{border:none;border-bottom:1px solid transparent;background:transparent;font-family:inherit;padding:3px 0;outline:none;color:var(--ink);}
+  .t-edit:hover, .t-edit:focus{border-bottom-color:var(--line);}
+  .t-edit.t-name{font-family:'Pretendard';font-weight:900;font-size:17px;width:180px;}
+  .t-meta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;}
+  .t-edit.t-meta{font-size:12.5px;color:var(--ink-soft);width:150px;}
+  .rrn-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;height:fit-content;}
   .rrn-value{font-family:monospace;font-size:12px;color:var(--ink-soft);}
-  .trainee-body{padding:14px 16px;display:flex;gap:24px;flex-wrap:wrap;}
+  .trainee-body{padding:16px;display:flex;gap:24px;flex-wrap:wrap;}
   .memo-col{flex:1;min-width:220px;}
-  .memo-col label{
+  .memo-col label, .apps-col label{
     display:block;font-size:10px;color:var(--ink-soft);margin-bottom:7px;
     letter-spacing:0.1em;text-transform:uppercase;font-weight:700;
   }
   .memo-input{
     width:100%;min-height:70px;padding:11px 12px;border:1.5px solid var(--line-soft);
-    background:#F7F5EF;font-family:inherit;font-size:13.5px;color:var(--ink);outline:none;resize:vertical;
+    background:var(--fill);font-family:inherit;font-size:13.5px;color:var(--ink);outline:none;resize:vertical;
   }
   .memo-input:focus{border-color:var(--accent);background:#fff;}
   .apps-col{flex:1.4;min-width:260px;}
-  .apps-col label{
-    display:block;font-size:10px;color:var(--ink-soft);margin-bottom:7px;
-    letter-spacing:0.1em;text-transform:uppercase;font-weight:700;
-  }
-  .app-row{
-    display:flex;justify-content:space-between;align-items:center;gap:10px;
-    padding:9px 0;border-bottom:1px solid var(--line-soft);
-  }
+  .app-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line-soft);}
   .app-row:last-child{border-bottom:none;}
   .app-round{font-size:13.5px;font-weight:700;}
   .app-round .type{font-size:10.5px;color:var(--ink-soft);font-weight:400;margin-left:6px;}
   .app-sub{font-size:10.5px;color:var(--ink-soft);margin-top:3px;}
-  .dup-badge{
-    display:inline-block;margin-left:7px;padding:1px 7px;border:1px solid var(--line-soft);
-    color:var(--ink-soft);font-size:9.5px;letter-spacing:0.04em;
-  }
+  .dup-badge{display:inline-block;margin-left:7px;padding:1px 7px;border:1px solid var(--line-soft);color:var(--ink-soft);font-size:9.5px;letter-spacing:0.04em;}
   .cancelled-note{color:var(--accent);}
-  select.status-select{
-    padding:6px 8px;border:1px solid var(--line);background:transparent;color:var(--ink);
-    font-family:inherit;font-size:11.5px;outline:none;
-  }
+  select.status-select{padding:6px 8px;border:1px solid var(--line);background:transparent;color:var(--ink);font-family:inherit;font-size:11.5px;outline:none;}
   .status-대기{color:var(--warn);}
   .status-승인{color:var(--success);}
   .status-거절{color:var(--accent);}
   .status-취소{color:var(--muted);}
+  .trainee-actions{padding:0 16px 16px;display:flex;justify-content:flex-end;}
 
-  @media (max-width:720px){
-    .content{padding:20px 14px 64px;}
+  @media (max-width:820px){
+    #dashboard.show{flex-direction:column;}
+    .sidebar{width:100%;flex:none;height:auto;position:relative;flex-direction:row;overflow-x:auto;}
+    .sidebar-brand{border-bottom:none;border-right:1.5px solid var(--line);flex:0 0 auto;white-space:nowrap;}
+    .nav{display:flex;padding:0;}
+    .nav-item{white-space:nowrap;border-left:none;border-bottom:3px solid transparent;}
+    .nav-item.active{border-left:none;border-bottom-color:var(--ink);}
+    .sidebar-footer{border-top:none;border-left:1.5px solid var(--line);flex:0 0 auto;display:flex;flex-direction:column;justify-content:center;}
+    .main{padding:22px 16px 70px;}
     th,td{white-space:nowrap;}
   }
 </style>
@@ -210,48 +238,52 @@
 </div>
 
 <div id="dashboard">
-  <div class="header">
-    <div class="header-inner">
-      <div>
-        <div class="kicker">전주MBC · K-디지털팀</div>
-        <h1>재직자 교육 신청 관리</h1>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <span class="who" id="whoAmI"></span>
-        <button class="logout-btn" id="logoutBtn">로그아웃</button>
-      </div>
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="kicker">전주MBC · K-디지털팀</div>
+      <h1>재직자 교육<br>신청 관리</h1>
     </div>
-  </div>
+    <nav class="nav">
+      <button class="nav-item active" data-view="overview"><span class="num">01</span>개요</button>
+      <button class="nav-item" data-view="applications"><span class="num">02</span>신청 현황</button>
+      <button class="nav-item" data-view="courses"><span class="num">03</span>과정 관리</button>
+      <button class="nav-item" data-view="log"><span class="num">04</span>활동 로그</button>
+    </nav>
+    <div class="sidebar-footer">
+      <span class="who" id="whoAmI"></span>
+      <button id="logoutBtn">로그아웃</button>
+    </div>
+  </aside>
 
-  <div class="content">
-    <div class="panel">
-      <h2>과정 · 회차 관리</h2>
-      <div class="add-form">
-        <div>
-          <label>과정명</label>
-          <select id="newCourseType"><option value="">과정명 선택</option></select>
+  <main class="main">
+    <section class="view active" id="view-overview">
+      <div class="view-header">
+        <h2>개요</h2>
+        <div class="sub">전체 신청 현황을 한눈에 확인하세요</div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="num" id="statTrainees">–</div><div class="label">전체 신청자</div></div>
+        <div class="stat-card"><div class="num" id="statApps">–</div><div class="label">전체 신청 건수</div></div>
+        <div class="stat-card"><div class="num" id="statPending">–</div><div class="label">대기중</div></div>
+        <div class="stat-card"><div class="num" id="statApproved">–</div><div class="label">승인됨</div></div>
+      </div>
+      <div class="two-col">
+        <div class="panel">
+          <div class="subhead">과정별 신청 현황</div>
+          <div id="overviewCourseBreakdown"><div class="empty-row">불러오는 중...</div></div>
         </div>
-        <div><label>회차</label><input type="number" id="newRound" placeholder="3" min="1"></div>
-        <div><label>시작일</label><input type="date" id="newStartDate"></div>
-        <div><label>종료일</label><input type="date" id="newEndDate"></div>
-        <div><label>정원</label><input type="number" id="newCapacity" placeholder="30"></div>
-        <button id="addRoundBtn">회차 추가</button>
+        <div class="panel">
+          <div class="subhead">최근 활동</div>
+          <div id="overviewActivity"><div class="empty-row">불러오는 중...</div></div>
+        </div>
       </div>
-      <div id="newTypeRow" class="new-type-row" style="display:none;">
-        <label>새 과정명</label>
-        <input type="text" id="newTypeName" placeholder="예: 버추얼스튜디오 실무">
-      </div>
+    </section>
 
-      <div style="overflow-x:auto;margin-top:22px;">
-        <table>
-          <thead><tr><th>과정</th><th>회차</th><th>라벨</th><th>시작일</th><th>종료일</th><th>정원</th><th></th></tr></thead>
-          <tbody id="roundRows"><tr><td colspan="7" class="empty-row">불러오는 중...</td></tr></tbody>
-        </table>
+    <section class="view" id="view-applications">
+      <div class="view-header">
+        <h2>신청 현황</h2>
+        <div class="sub">신청자 정보와 회차별 신청 상태를 관리합니다</div>
       </div>
-    </div>
-
-    <div class="panel">
-      <h2>신청 현황</h2>
       <div class="filters">
         <select id="filterStatus">
           <option value="">전체 상태</option>
@@ -264,19 +296,80 @@
         <input type="text" id="filterSearch" placeholder="이름/연락처 검색">
       </div>
       <div id="traineeGroups"><div class="empty-row">불러오는 중...</div></div>
-    </div>
-  </div>
+    </section>
+
+    <section class="view" id="view-courses">
+      <div class="view-header">
+        <h2>과정 관리</h2>
+        <div class="sub">고정 과정명과 회차(기간)를 추가·편집합니다</div>
+      </div>
+
+      <div class="panel">
+        <div class="subhead">과정명 목록</div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead><tr><th>과정명</th><th>설명</th><th></th></tr></thead>
+            <tbody id="typeRows"><tr><td colspan="3" class="empty-row">불러오는 중...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="subhead">회차 추가</div>
+        <div class="add-form">
+          <div>
+            <label>과정명</label>
+            <select id="newCourseType"><option value="">과정명 선택</option></select>
+          </div>
+          <div><label>회차</label><input type="number" id="newRound" placeholder="3" min="1"></div>
+          <div><label>시작일</label><input type="date" id="newStartDate"></div>
+          <div><label>종료일</label><input type="date" id="newEndDate"></div>
+          <div><label>정원</label><input type="number" id="newCapacity" placeholder="30"></div>
+          <button id="addRoundBtn">회차 추가</button>
+        </div>
+        <div id="newTypeRow" class="new-type-row" style="display:none;">
+          <label>새 과정명</label>
+          <input type="text" id="newTypeName" placeholder="예: 버추얼스튜디오 실무">
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="subhead">등록된 회차</div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead><tr><th>과정</th><th>회차</th><th>라벨</th><th>시작일</th><th>종료일</th><th>정원</th><th></th></tr></thead>
+            <tbody id="roundRows"><tr><td colspan="7" class="empty-row">불러오는 중...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-log">
+      <div class="view-header">
+        <h2>활동 로그</h2>
+        <div class="sub">신청자 정보 및 신청 현황 변경 이력 (관리자만 조회 가능)</div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>시간</th><th>변경자</th><th>대상</th><th>동작</th></tr></thead>
+          <tbody id="auditRows"><tr><td colspan="4" class="empty-row">탭을 열면 불러옵니다</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
 </div>
 
 <script>
 const SUPABASE_URL = "https://hazktmyqfizvgwfogqwm.supabase.co";
 const SUPABASE_KEY = "sb_publishable_nYc0jVUhe6_mnrEyMG9KKw_uWURS_Mv";
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const esc = s => (s == null ? '' : String(s)).replace(/"/g, '&quot;');
 
 let isSignupMode = false;
 let allCourseTypes = [];
 let allRounds = [];
 let allApps = [];
+let auditLoaded = false;
 
 // ---------- auth ----------
 document.getElementById('toggleMode').addEventListener('click', () => {
@@ -318,12 +411,23 @@ checkExistingSession();
 
 function showDashboard(user){
   document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('dashboard').classList.add('show');
   document.getElementById('whoAmI').textContent = user?.email || '';
   loadCourseTypes();
   loadRounds();
   loadApplications();
 }
+
+// ---------- nav ----------
+document.querySelectorAll('.nav-item').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('view-' + btn.dataset.view).classList.add('active');
+    if (btn.dataset.view === 'log' && !auditLoaded){ loadAuditLog(); }
+  });
+});
 
 // ---------- course types ----------
 async function loadCourseTypes(){
@@ -336,6 +440,39 @@ async function loadCourseTypes(){
     allCourseTypes.map(t => `<option value="${t.id}">${t.name}</option>`).join('') +
     '<option value="__new__">+ 새 과정명 추가</option>';
   sel.value = prev;
+  renderTypeRows();
+}
+
+function renderTypeRows(){
+  const tbody = document.getElementById('typeRows');
+  if (allCourseTypes.length === 0){
+    tbody.innerHTML = '<tr><td colspan="3" class="empty-row">등록된 과정명이 없습니다</td></tr>';
+    return;
+  }
+  tbody.innerHTML = allCourseTypes.map(t => `
+    <tr data-type-id="${t.id}">
+      <td><input class="row-input" data-field="name" value="${esc(t.name)}"></td>
+      <td><input class="row-input" data-field="description" value="${esc(t.description)}"></td>
+      <td><button class="mini-btn type-save" data-id="${t.id}">저장</button></td>
+    </tr>
+  `).join('');
+
+  tbody.querySelectorAll('.type-save').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = btn.dataset.id;
+      const row = tbody.querySelector(`tr[data-type-id="${id}"]`);
+      const name = row.querySelector('[data-field="name"]').value.trim();
+      const description = row.querySelector('[data-field="description"]').value.trim();
+      if (!name) return;
+      btn.textContent = '저장 중';
+      const { error } = await sb.from('course_types').update({ name, description }).eq('id', id);
+      if (!error){
+        btn.textContent = '저장됨'; btn.classList.add('saved');
+        setTimeout(() => { btn.textContent = '저장'; btn.classList.remove('saved'); }, 1400);
+        loadCourseTypes(); loadRounds();
+      } else { btn.textContent = '실패'; }
+    });
+  });
 }
 
 document.getElementById('newCourseType').addEventListener('change', (e) => {
@@ -365,7 +502,7 @@ function renderRoundRows(){
     <tr data-round-id="${r.id}">
       <td>${r.course_types?.name || '-'}</td>
       <td><input class="row-input" data-field="round" value="${r.round ?? ''}" style="width:56px;"></td>
-      <td><input class="row-input" data-field="label" value="${(r.label||'').replace(/"/g,'&quot;')}"></td>
+      <td><input class="row-input" data-field="label" value="${esc(r.label)}"></td>
       <td><input class="row-input" type="date" data-field="start_date" value="${r.start_date || ''}"></td>
       <td><input class="row-input" type="date" data-field="end_date" value="${r.end_date || ''}"></td>
       <td><input class="row-input" data-field="capacity" value="${r.capacity ?? ''}" style="width:56px;"></td>
@@ -442,6 +579,7 @@ async function loadApplications(){
   }
   allApps = data || [];
   renderTraineeGroups();
+  renderOverview();
 }
 
 function renderTraineeGroups(){
@@ -476,8 +614,12 @@ function renderTraineeGroups(){
     <div class="trainee-block" data-trainee-id="${g.trainee?.id}">
       <div class="trainee-head">
         <div>
-          <div class="trainee-id">${g.trainee?.name || '-'}</div>
-          <div class="trainee-meta">${g.trainee?.phone || '-'} ${g.trainee?.email ? '· ' + g.trainee.email : ''} ${g.trainee?.company_name ? '· ' + g.trainee.company_name : ''}</div>
+          <input class="t-edit t-name" data-field="name" value="${esc(g.trainee?.name)}">
+          <div class="t-meta-row">
+            <input class="t-edit t-meta" data-field="phone" value="${esc(g.trainee?.phone)}" placeholder="연락처">
+            <input class="t-edit t-meta" data-field="email" value="${esc(g.trainee?.email)}" placeholder="이메일">
+            <input class="t-edit t-meta" data-field="company_name" value="${esc(g.trainee?.company_name)}" placeholder="회사명">
+          </div>
         </div>
         <div class="rrn-row">
           <span class="rrn-value" data-trainee-id="${g.trainee?.id}">●●●●●●-●●●●●●●</span>
@@ -489,7 +631,6 @@ function renderTraineeGroups(){
         <div class="memo-col">
           <label>메모 (이 사람 전체 공통)</label>
           <textarea class="memo-input" data-trainee-id="${g.trainee?.id}" placeholder="메모 입력...">${g.trainee?.memo || ''}</textarea>
-          <button class="mini-btn memo-save" data-trainee-id="${g.trainee?.id}" style="margin-top:8px;">메모 저장</button>
         </div>
         <div class="apps-col">
           <label>신청 과정 (${g.apps.length}건)</label>
@@ -517,18 +658,27 @@ function renderTraineeGroups(){
           })()}
         </div>
       </div>
+      <div class="trainee-actions">
+        <button class="mini-btn trainee-save" data-trainee-id="${g.trainee?.id}">신청자 정보 저장</button>
+      </div>
     </div>
   `).join('');
 
-  container.querySelectorAll('.memo-save').forEach(btn => {
+  container.querySelectorAll('.trainee-save').forEach(btn => {
     btn.addEventListener('click', async () => {
       const tId = btn.dataset.traineeId;
-      const memo = container.querySelector(`.memo-input[data-trainee-id="${tId}"]`).value;
+      const block = container.querySelector(`.trainee-block[data-trainee-id="${tId}"]`);
+      const name = block.querySelector('[data-field="name"]').value.trim();
+      const phone = block.querySelector('[data-field="phone"]').value.trim();
+      const email = block.querySelector('[data-field="email"]').value.trim();
+      const company_name = block.querySelector('[data-field="company_name"]').value.trim();
+      const memo = block.querySelector('.memo-input').value;
+      if (!name || !phone){ btn.textContent = '이름/연락처 필요'; setTimeout(()=>{btn.textContent='신청자 정보 저장';},1500); return; }
       btn.textContent = '저장 중';
-      const { error } = await sb.from('trainees').update({ memo }).eq('id', tId);
+      const { error } = await sb.from('trainees').update({ name, phone, email, company_name, memo }).eq('id', tId);
       if (!error){
         btn.textContent = '저장됨'; btn.classList.add('saved');
-        setTimeout(() => { btn.textContent = '메모 저장'; btn.classList.remove('saved'); }, 1400);
+        setTimeout(() => { btn.textContent = '신청자 정보 저장'; btn.classList.remove('saved'); }, 1400);
       } else { btn.textContent = '실패'; }
     });
   });
@@ -538,11 +688,7 @@ function renderTraineeGroups(){
       const appId = sel.dataset.appId;
       const status = sel.value;
       const { error } = await sb.from('applications').update({ status }).eq('id', appId);
-      if (!error){
-        loadApplications();
-      } else {
-        sel.className = `status-select status-${sel.dataset.prevStatus || ''}`;
-      }
+      if (!error){ loadApplications(); }
     });
   });
 
@@ -565,6 +711,68 @@ function renderTraineeGroups(){
 document.getElementById('filterStatus').addEventListener('change', renderTraineeGroups);
 document.getElementById('filterRound').addEventListener('change', renderTraineeGroups);
 document.getElementById('filterSearch').addEventListener('input', renderTraineeGroups);
+
+// ---------- overview ----------
+function renderOverview(){
+  const traineeIds = new Set(allApps.map(a => a.trainee_id));
+  const statusCounts = { '대기':0, '승인':0, '거절':0, '취소':0 };
+  const courseCounts = {};
+  allApps.forEach(a => {
+    if (statusCounts[a.status] !== undefined) statusCounts[a.status]++;
+    const name = a.course_rounds?.course_types?.name || '기타';
+    courseCounts[name] = (courseCounts[name] || 0) + 1;
+  });
+
+  document.getElementById('statTrainees').textContent = traineeIds.size;
+  document.getElementById('statApps').textContent = allApps.length;
+  document.getElementById('statPending').textContent = statusCounts['대기'];
+  document.getElementById('statApproved').textContent = statusCounts['승인'];
+
+  const sorted = Object.entries(courseCounts).sort((a,b) => b[1]-a[1]);
+  const breakdownEl = document.getElementById('overviewCourseBreakdown');
+  breakdownEl.innerHTML = sorted.length
+    ? sorted.map(([name,count]) => `<div class="breakdown-row"><span>${name}</span><span class="breakdown-count">${count}</span></div>`).join('')
+    : '<div class="empty-row">데이터 없음</div>';
+}
+
+async function loadRecentActivity(){
+  const { data, error } = await sb.from('admin_audit_log').select('*').order('changed_at', { ascending: false }).limit(6);
+  const el = document.getElementById('overviewActivity');
+  if (error || !data || data.length === 0){ el.innerHTML = '<div class="empty-row">활동 기록이 없습니다</div>'; return; }
+  const labels = { trainees: '신청자 정보', applications: '신청 현황' };
+  const actionLabels = { INSERT: '등록', UPDATE: '수정', DELETE: '삭제' };
+  el.innerHTML = data.map(l => `
+    <div class="activity-row">
+      <b>${l.changed_by || '공개 신청'}</b>님이 ${labels[l.table_name] || l.table_name}을(를) ${actionLabels[l.action] || l.action} · ${new Date(l.changed_at).toLocaleString('ko-KR')}
+    </div>
+  `).join('');
+}
+
+// ---------- audit log (full) ----------
+async function loadAuditLog(){
+  auditLoaded = true;
+  const { data, error } = await sb.from('admin_audit_log').select('*').order('changed_at', { ascending: false }).limit(150);
+  const tbody = document.getElementById('auditRows');
+  if (error){ tbody.innerHTML = `<tr><td colspan="4" class="empty-row">불러오기 실패: ${error.message}</td></tr>`; return; }
+  if (!data || data.length === 0){ tbody.innerHTML = '<tr><td colspan="4" class="empty-row">활동 기록이 없습니다</td></tr>'; return; }
+  const labels = { trainees: '신청자 정보', applications: '신청 현황' };
+  const actionLabels = { INSERT: '등록', UPDATE: '수정', DELETE: '삭제' };
+  tbody.innerHTML = data.map(l => `
+    <tr>
+      <td>${new Date(l.changed_at).toLocaleString('ko-KR')}</td>
+      <td>${l.changed_by || '공개 신청 (익명)'}</td>
+      <td>${labels[l.table_name] || l.table_name}</td>
+      <td>${actionLabels[l.action] || l.action}</td>
+    </tr>
+  `).join('');
+}
+
+// initial overview activity load happens alongside dashboard show
+const _origShowDashboard = showDashboard;
+showDashboard = function(user){
+  _origShowDashboard(user);
+  loadRecentActivity();
+};
 </script>
 </body>
 </html>
