@@ -216,6 +216,17 @@
   .status-거절{background:var(--danger-soft);color:var(--danger);}
   .status-취소{background:var(--field-bg);color:var(--muted);}
   .trainee-actions{padding:0 18px 18px;display:flex;justify-content:flex-end;}
+  .template-card{background:var(--field-bg);border-radius:12px;padding:16px 18px;margin-bottom:12px;}
+  .template-card .t-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
+  .template-card .t-label{font-weight:800;font-size:14px;color:var(--ink);}
+  .template-card .t-key{font-size:10.5px;color:var(--ink-soft);background:#fff;padding:2px 8px;border-radius:6px;margin-left:8px;}
+  .template-body-input{
+    width:100%;min-height:70px;padding:11px 12px;border:1.5px solid var(--border);border-radius:10px;
+    background:#fff;font-family:inherit;font-size:13.5px;color:var(--ink);outline:none;resize:vertical;
+  }
+  .template-body-input:focus{border-color:var(--primary);}
+  .toggle-row{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-soft);font-weight:600;}
+  code{background:#fff;padding:2px 6px;border-radius:5px;font-size:12px;color:var(--primary-dark);}
 
   @media (max-width:820px){
     #dashboard.show{flex-direction:column;}
@@ -257,6 +268,7 @@
       <button class="nav-item" data-view="applications"><span class="num">2</span>신청 현황</button>
       <button class="nav-item" data-view="courses"><span class="num">3</span>과정 관리</button>
       <button class="nav-item" data-view="log"><span class="num">4</span>활동 로그</button>
+      <button class="nav-item" data-view="notify"><span class="num">5</span>알림 설정</button>
     </nav>
     <div class="sidebar-footer">
       <span class="who" id="whoAmI"></span>
@@ -377,7 +389,31 @@
         </div>
       </div>
     </section>
+
+    <section class="view" id="view-notify">
+      <div class="view-header">
+        <h2>알림 설정</h2>
+        <div class="sub">신청 접수·리마인더 문자 템플릿 관리 (알리고 SMS 연동)</div>
+      </div>
+      <div class="panel">
+        <div class="subhead">발송 템플릿</div>
+        <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:14px;">
+          사용 가능한 변수: <code>{이름}</code> <code>{과정명}</code> <code>{시작일}</code> — 리마인더 템플릿에서만 과정명/시작일이 채워집니다.
+        </div>
+        <div id="templateRows"><div class="empty-row">불러오는 중...</div></div>
+      </div>
+      <div class="panel">
+        <div class="subhead">최근 발송 이력</div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead><tr><th>시간</th><th>템플릿</th><th>연락처</th><th>상태</th></tr></thead>
+            <tbody id="notifyLogRows"><tr><td colspan="4" class="empty-row">탭을 열면 불러옵니다</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
   </main>
+
 </div>
 
 <script>
@@ -391,6 +427,7 @@ let allCourseTypes = [];
 let allRounds = [];
 let allApps = [];
 let auditLoaded = false;
+let notifyLoaded = false;
 
 // ---------- auth ----------
 document.getElementById('toggleMode').addEventListener('click', () => {
@@ -447,6 +484,7 @@ document.querySelectorAll('.nav-item').forEach(btn => {
     btn.classList.add('active');
     document.getElementById('view-' + btn.dataset.view).classList.add('active');
     if (btn.dataset.view === 'log' && !auditLoaded){ loadAuditLog(); }
+    if (btn.dataset.view === 'notify' && !notifyLoaded){ loadTemplates(); loadNotifyLog(); }
   });
 });
 
@@ -772,6 +810,57 @@ async function loadAuditLog(){
       <td>${l.changed_by || '공개 신청 (익명)'}</td>
       <td>${labels[l.table_name] || l.table_name}</td>
       <td>${actionLabels[l.action] || l.action}</td>
+    </tr>
+  `).join('');
+}
+
+// ---------- 알림 템플릿 ----------
+async function loadTemplates(){
+  notifyLoaded = true;
+  const { data, error } = await sb.from('message_templates').select('*').order('key');
+  const container = document.getElementById('templateRows');
+  if (error || !data || data.length === 0){ container.innerHTML = '<div class="empty-row">템플릿이 없습니다</div>'; return; }
+  container.innerHTML = data.map(t => `
+    <div class="template-card" data-key="${t.key}">
+      <div class="t-top">
+        <div><span class="t-label">${t.label}</span><span class="t-key">${t.key}</span></div>
+        <label class="toggle-row">
+          <input type="checkbox" class="tpl-enabled" ${t.enabled ? 'checked' : ''}> 사용
+        </label>
+      </div>
+      <textarea class="template-body-input tpl-body">${t.body}</textarea>
+      <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+        <button class="mini-btn tpl-save">저장</button>
+      </div>
+    </div>
+  `).join('');
+
+  container.querySelectorAll('.template-card').forEach(card => {
+    card.querySelector('.tpl-save').addEventListener('click', async () => {
+      const key = card.dataset.key;
+      const body = card.querySelector('.tpl-body').value;
+      const enabled = card.querySelector('.tpl-enabled').checked;
+      const btn = card.querySelector('.tpl-save');
+      btn.textContent = '저장 중';
+      const { error } = await sb.from('message_templates').update({ body, enabled, updated_at: new Date().toISOString() }).eq('key', key);
+      if (!error){ btn.textContent = '저장됨'; btn.classList.add('saved'); setTimeout(() => { btn.textContent = '저장'; btn.classList.remove('saved'); }, 1400); }
+      else { btn.textContent = '실패'; }
+    });
+  });
+}
+
+async function loadNotifyLog(){
+  const { data, error } = await sb.from('notification_log').select('*').order('sent_at', { ascending: false }).limit(100);
+  const tbody = document.getElementById('notifyLogRows');
+  if (error){ tbody.innerHTML = `<tr><td colspan="4" class="empty-row">불러오기 실패: ${error.message}</td></tr>`; return; }
+  if (!data || data.length === 0){ tbody.innerHTML = '<tr><td colspan="4" class="empty-row">발송 이력이 없습니다</td></tr>'; return; }
+  const statusLabel = { sent: '<span class="status-select status-승인" style="cursor:default;">발송됨</span>', failed: '<span class="status-select status-거절" style="cursor:default;">실패</span>', pending: '<span class="status-select status-대기" style="cursor:default;">대기</span>' };
+  tbody.innerHTML = data.map(l => `
+    <tr>
+      <td>${new Date(l.sent_at).toLocaleString('ko-KR')}</td>
+      <td>${l.template_key}</td>
+      <td>${l.phone || '-'}</td>
+      <td>${statusLabel[l.status] || l.status}</td>
     </tr>
   `).join('');
 }
